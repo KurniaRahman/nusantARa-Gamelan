@@ -1,0 +1,122 @@
+    <!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamelan Hitbox Mapper</title>
+    <!-- Tailwind CSS (via CDN untuk mapper admin) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #f8fafc; }
+        .hitbox {
+            position: absolute;
+            border: 2px solid #3b82f6;
+            background-color: rgba(59, 130, 246, 0.3);
+            cursor: move;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            text-shadow: 1px 1px 2px black;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        .hitbox:hover {
+            background-color: rgba(59, 130, 246, 0.5);
+            border-color: #2563eb;
+            z-index: 10;
+        }
+        /* Resize handles */
+        .resizer {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border: 1px solid #3b82f6;
+            border-radius: 50%;
+        }
+        .resizer.tl { top: -5px; left: -5px; cursor: nwse-resize; }
+        .resizer.tr { top: -5px; right: -5px; cursor: nesw-resize; }
+        .resizer.bl { bottom: -5px; left: -5px; cursor: nesw-resize; }
+        .resizer.br { bottom: -5px; right: -5px; cursor: nwse-resize; }
+        
+        #workspace {
+            position: relative;
+            display: inline-block;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+        #workspace img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-slate-800 font-sans">
+
+    <!-- Sidebar Kiri -->
+    <aside class="w-80 bg-white border-r border-slate-200 flex flex-col h-full shadow-lg z-20">
+        <div class="p-6 border-b border-slate-200 bg-slate-50">
+            <h1 class="text-xl font-black text-slate-800">Hitbox Mapper</h1>
+            <p class="text-sm text-slate-500 mt-1">Alat pemetaan visual interaktif.</p>
+        </div>
+        
+        <div class="p-6 flex-1 overflow-y-auto space-y-6">
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-2">1. Pilih Instrumen</label>
+                <select id="pilih-instrumen" class="w-full border-2 border-slate-200 rounded-lg p-2.5 outline-none focus:border-sky-500 transition-colors bg-slate-50">
+                    <option value="">-- Memuat Data... --</option>
+                </select>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-2">2. Pilih Laras</label>
+                <select id="pilih-laras" class="w-full border-2 border-slate-200 rounded-lg p-2.5 outline-none focus:border-sky-500 transition-colors bg-slate-50" disabled>
+                    <option value="">-- Pilih Instrumen Dulu --</option>
+                </select>
+            </div>
+            
+            <div class="bg-sky-50 p-4 rounded-xl border border-sky-100">
+                <h3 class="text-sm font-bold text-sky-800 mb-2">Panduan</h3>
+                <ul class="text-xs text-sky-700 space-y-2 list-disc pl-4">
+                    <li>Pilih instrumen & laras di atas.</li>
+                    <li>Geser (drag) kotak biru untuk memindahkannya.</li>
+                    <li>Tarik sudut lingkaran putih untuk mengubah ukuran.</li>
+                    <li>Klik "Simpan" jika sudah presisi.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="p-6 border-t border-slate-200 bg-slate-50 space-y-3">
+            <button id="btn-salin" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md active:translate-y-1 flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                Salin JSON
+            </button>
+            <button id="btn-download" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md active:translate-y-1 flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                Download JSON
+            </button>
+        </div>
+    </aside>
+
+    <!-- Area Utama / Workspace -->
+    <main class="flex-1 bg-slate-200 p-8 flex items-center justify-center overflow-auto relative" id="main-area">
+        <div id="pesan-kosong" class="text-center text-slate-400 font-bold text-xl">
+            Silakan pilih instrumen dari panel kiri
+        </div>
+        
+        <!-- Wadah Gambar dan Hitbox -->
+        <div id="workspace" class="hidden">
+            <img id="gambar-instrumen" src="" alt="Instrumen">
+            <div id="hitbox-container" class="absolute inset-0"></div>
+        </div>
+    </main>
+
+    <!-- Skrip Utama -->
+    <script type="module" src="../js/mapper.js"></script>
+</body>
+</html>

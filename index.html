@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NusantARa - Web-AR Edukasi Gamelan</title>
+
+    <!-- Google Fonts: Quicksand untuk tampilan ceria -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        quicksand: ['Quicksand', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Skrip eksternal (MediaPipe dsb) -->
+    <!-- MindAR akan diimpor secara dinamis lewat ESM di JavaScript -->
+</head>
+
+<body>
+    <div id="wadah-aplikasi">
+        <!-- Mode AR: Feed Kamera Utama & UI Overlay -->
+        <div id="wadah-ar" class="layar-penuh sembunyi bg-black">
+            <!-- Lapisan 1: Video -->
+            <video id="videoKamera" autoplay playsinline muted
+                class="absolute inset-0 w-full h-full object-cover z-0"></video>
+
+            <!-- Lapisan 1.5: Overlay Gambar Instrumen AR (CSS3 3D Transform) -->
+            <div id="wadah-overlay-instrumen" class="absolute inset-0 pointer-events-none z-5 overflow-hidden">
+                <!-- Gambar instrumen akan diatur src dan matrix3d-nya oleh JavaScript -->
+                <img id="overlay-instrumen" class="absolute sembunyi" style="transform-origin: top left;">
+            </div>
+
+            <!-- Lapisan 2: Area Proyeksi AR (Canvas) -->
+            <canvas id="canvasUI" class="absolute inset-0 w-full h-full z-10"></canvas>
+
+            <!-- Frame Ceria untuk Anak-anak -->
+            <div class="absolute inset-0 pointer-events-none z-15 p-4 md:p-6 overflow-hidden">
+                <!-- Border tebal melengkung bergaya bubble -->
+                <div class="w-full h-full border-[8px] md:border-[12px] border-sky-400/80 rounded-[3rem] md:rounded-[4rem] relative shadow-[inset_0_0_20px_rgba(0,0,0,0.2)]">
+                    <!-- Ornamen Gelembung Ceria -->
+                    <div class="absolute -top-4 -left-4 w-12 h-12 md:w-16 md:h-16 bg-yellow-400 rounded-full border-4 border-white shadow-lg animate-bounce" style="animation-duration: 2s;"></div>
+                    <div class="absolute -bottom-4 -right-4 w-16 h-16 md:w-24 md:h-24 bg-rose-400 rounded-full border-4 border-white shadow-lg animate-pulse" style="animation-duration: 3s;"></div>
+                    <div class="absolute top-1/4 -right-4 w-8 h-8 md:w-12 md:h-12 bg-green-400 rounded-full border-4 border-white shadow-md"></div>
+                    <div class="absolute bottom-1/4 -left-3 w-6 h-6 md:w-10 md:h-10 bg-purple-400 rounded-full border-4 border-white shadow-md"></div>
+                </div>
+            </div>
+
+            <!-- Lapisan 3: UI Overlay Glassmorphism Ceria -->
+            <div class="absolute inset-0 pointer-events-none z-20 flex flex-col justify-between p-6 md:p-10">
+                <!-- A. Header Atas -->
+                <div class="flex justify-between items-start w-full gap-2">
+                    <!-- Tombol Kembali -->
+                    <button id="tombol-kembali-ar"
+                        class="pointer-events-auto bg-rose-500 border-4 border-white text-white rounded-full p-2 md:p-3 hover:bg-rose-600 hover:scale-110 transition-all shadow-lg shrink-0">
+                        <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                    </button>
+
+                    <div class="flex flex-col items-end gap-3">
+                        <!-- Switch Mode Auto / Manual Toggle -->
+                        <div class="pointer-events-auto flex items-center bg-white/90 backdrop-blur-md border-[3px] border-sky-300 rounded-full p-1.5 shadow-lg shrink-0">
+                            <button id="tombol-mode-auto" class="px-3 py-1.5 md:px-5 md:py-2 rounded-full text-xs md:text-sm font-bold transition-all bg-sky-400 text-white shadow-sm">Auto (Scan)</button>
+                            <button id="tombol-mode-manual" class="px-3 py-1.5 md:px-5 md:py-2 rounded-full text-xs md:text-sm font-bold transition-all text-slate-500 hover:text-slate-800">Manual 🎵</button>
+                        </div>
+
+                        <!-- Status HUD (Indikator) -->
+                        <div
+                            class="pointer-events-auto bg-white/90 backdrop-blur-md border-[3px] border-yellow-400 rounded-full px-4 py-2 md:px-6 md:py-3 flex items-center gap-3 md:gap-4 shadow-lg shrink-0">
+                            <!-- Indikator Kamera -->
+                            <div class="flex items-center gap-2" title="Kamera Aktif">
+                                <div class="w-3 h-3 md:w-4 md:h-4 bg-green-500 rounded-full shadow-[0_0_8px_#22c55e] animate-pulse"></div>
+                                <span class="text-xl">📷</span>
+                            </div>
+                            <div class="w-[3px] h-6 bg-slate-200 rounded-full"></div>
+                            <!-- Indikator Target -->
+                            <div class="flex items-center gap-2" title="Mencari Kartu">
+                                <div id="indikator-kartu"
+                                    class="w-3 h-3 md:w-4 md:h-4 bg-yellow-400 rounded-full shadow-[0_0_8px_#facc15] animate-pulse"></div>
+                                <span class="text-xl">🃏</span>
+                            </div>
+                            <div class="w-[3px] h-6 bg-slate-200 rounded-full"></div>
+                            <!-- Indikator Tangan AI -->
+                            <div class="flex items-center gap-2" title="Pelacak Tangan">
+                                <div id="indikator-tangan" class="w-3 h-3 md:w-4 md:h-4 bg-slate-300 rounded-full"></div>
+                                <span class="text-xl">🖐️</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- B. Pemandu Pemindaian (Tengah) -->
+                <div class="flex-1 flex flex-col items-center justify-center pointer-events-none gap-4">
+                    <div id="kotak-pemandu"
+                        class="w-64 h-64 md:w-80 md:h-80 border-8 border-dashed border-yellow-400/90 rounded-[3rem] md:rounded-[4rem] animate-[pulse_2s_ease-in-out_infinite] flex flex-col items-center justify-center bg-white/10 backdrop-blur-[2px] shadow-[0_0_30px_rgba(250,204,21,0.2)]">
+                        <img src="./aset/gambar/maskot_transparan.png" alt="Maskot" class="w-24 h-24 md:w-32 md:h-32 object-contain opacity-90 drop-shadow-lg mb-2">
+                        <p class="text-white text-base md:text-xl font-extrabold text-center px-4 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
+                            Arahkan ke Kartu!</p>
+                    </div>
+                </div>
+
+                <!-- C. Panel Info Bawah -->
+                <div class="w-full flex justify-center pb-2 md:pb-6">
+                    <div
+                        class="bg-white/95 backdrop-blur-md rounded-full px-6 py-3 md:px-8 md:py-4 border-[4px] border-sky-400 shadow-2xl pointer-events-auto flex items-center gap-3">
+                        <div class="w-3 h-3 md:w-4 md:h-4 bg-sky-500 rounded-full animate-ping"></div>
+                        <p id="panduan-ar" class="text-slate-700 font-extrabold text-sm md:text-lg">Ayo cari kartu gamelanmu! 🔍
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Layar Mulai / Halaman Beranda (Tailwind & Kid-Friendly UI) -->
+        <div id="layar-mulai"
+            class="layar-penuh bg-[url('./aset/gambar/latar_beranda.png')] bg-cover bg-bottom bg-fixed bg-no-repeat font-quicksand text-slate-800 overflow-y-auto overflow-x-hidden relative">
+
+            <!-- Tombol Informasi (Credit) -->
+            <button id="tombol-info-credit"
+                class="absolute top-4 right-4 md:top-6 md:right-8 z-30 bg-white/90 backdrop-blur-md rounded-full w-12 h-12 flex items-center justify-center shadow-lg border-2 border-slate-100 text-sky-500 hover:bg-sky-100 hover:text-sky-600 transition-all hover:scale-110 active:scale-95"
+                title="Informasi Tim">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </button>
+
+            <!-- Ornamen Dekoratif Latar Belakang -->
+            <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+                <!-- Awan Kiri Atas -->
+                <div class="ornamen anim-float-slow opacity-50" style="top: 10%; left: 5%;">
+                    <svg class="w-24 h-24 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M17.5 19c-2.485 0-4.5-2.015-4.5-4.5 0-.154.008-.306.024-.456A4.982 4.982 0 018 9c-2.761 0-5 2.239-5 5 0 2.76 2.239 5 5 5h9.5a3.5 3.5 0 000-7h-.226A4.484 4.484 0 0117.5 19z" />
+                    </svg>
+                </div>
+                <!-- Awan Kanan -->
+                <div class="ornamen anim-float-medium opacity-60" style="top: 20%; right: -5%;">
+                    <svg class="w-32 h-32 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M17.5 19c-2.485 0-4.5-2.015-4.5-4.5 0-.154.008-.306.024-.456A4.982 4.982 0 018 9c-2.761 0-5 2.239-5 5 0 2.76 2.239 5 5 5h9.5a3.5 3.5 0 000-7h-.226A4.484 4.484 0 0117.5 19z" />
+                    </svg>
+                </div>
+
+                <!-- Nada Musik 1 -->
+                <div class="ornamen anim-float-fast opacity-40 text-orange-400" style="top: 45%; left: 15%;">
+                    <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M9 18c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm12-4c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zM9 12V4l12-3v10M9 4v8M21 1v10" />
+                    </svg>
+                </div>
+
+                <!-- Nada Musik 2 -->
+                <div class="ornamen anim-float-medium opacity-30 text-blue-500" style="top: 60%; right: 10%;">
+                    <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3">
+                        </path>
+                    </svg>
+                </div>
+
+                <!-- Lingkaran Bubble Transparan -->
+                <div class="ornamen anim-pulse-soft bg-white/30 rounded-full blur-md"
+                    style="width: 150px; height: 150px; bottom: 10%; left: -30px;"></div>
+                <div class="ornamen anim-pulse-soft bg-yellow-100/30 rounded-full blur-xl"
+                    style="width: 250px; height: 250px; top: 30%; right: -50px; animation-delay: 1s;"></div>
+            </div>
+
+            <!-- Wrapper konten agar tetap di tengah di desktop tapi bisa di-scroll normal di mobile -->
+            <div
+                class="w-full min-h-full flex flex-col justify-between items-center p-4 md:p-8 mx-auto max-w-5xl relative z-10">
+
+                <!-- Seksi 1: Header (Logo Utama) -->
+                <div class="text-center w-full shrink-0 mb-2 mt-4 flex justify-center">
+                    <!-- Logo NusantARa (Pengguna harus menaruh fotonya di folder aset/gambar) -->
+                    <img src="./aset/gambar/logo_utama.png" alt="Logo NusantARa"
+                        class="w-full max-w-sm md:max-w-md lg:max-w-lg object-contain drop-shadow-xl"
+                        onerror="this.onerror=null; this.outerHTML='<h1 class=\'text-5xl md:text-7xl font-bold tracking-wide mb-3\'><span class=\'text-blue-600\'>Nusant</span><span class=\'text-orange-500\'>AR</span><span class=\'text-blue-600\'>a</span></h1>';">
+                </div>
+
+                <!-- Main Content Area: Mascot + Buttons -->
+                <div class="flex flex-col lg:flex-row items-center justify-center w-full gap-8 lg:gap-16 flex-1 py-4">
+
+                    <!-- Seksi 2: Hero & Karakter (Mascot) -->
+                    <div
+                        class="flex flex-col items-center justify-center relative w-full max-w-xs md:max-w-sm lg:w-1/2 shrink-0">
+                        <!-- Balon Kata (Speech Bubble) -->
+                        <div
+                            class="bg-white rounded-3xl p-4 md:p-6 shadow-soft mb-5 relative z-10 w-full border-2 border-slate-100">
+                            <p class="text-center text-slate-700 font-semibold text-sm md:text-lg">
+                                Hai teman! Yuk, kita mengenal dan bermain gamelan bersama!
+                            </p>
+                            <!-- Ekor Balon -->
+                            <div
+                                class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[12px] border-l-transparent border-t-[14px] border-t-white border-r-[12px] border-r-transparent drop-shadow-sm">
+                            </div>
+                        </div>
+
+                        <!-- Gambar Maskot Transparan Beranimasi -->
+                        <img src="./aset/gambar/maskot_transparan.png" alt="Maskot Anak"
+                            class="w-48 h-48 md:w-64 md:h-64 lg:w-72 lg:h-72 object-contain anim-maskot-bounce drop-shadow-2xl cursor-pointer">
+                    </div>
+
+                    <!-- Seksi 3: Tombol Aksi Utama -->
+                    <div
+                        class="w-full max-w-sm md:max-w-md lg:w-1/2 flex flex-col gap-4 md:gap-6 shrink-0 mt-4 lg:mt-0">
+                        <!-- Tombol Sejarah -->
+                        <button id="tombol-sejarah"
+                            class="bg-yellow-200 hover:bg-yellow-300 border-4 border-yellow-300 rounded-3xl p-4 md:p-5 flex items-center shadow-soft transition-transform transform hover:scale-105 active:scale-95 group w-full text-left">
+                            <div class="bg-white rounded-2xl p-3 md:p-4 shadow-sm mr-4 shrink-0">
+                                <!-- SVG Buku -->
+                                <svg class="w-8 h-8 md:w-10 md:h-10 text-orange-500" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="block text-xl md:text-2xl font-bold text-slate-800 mb-1">Sejarah
+                                    Gamelan</span>
+                                <span class="block text-xs md:text-base font-semibold text-slate-600 leading-tight">Yuk,
+                                    belajar asal-usul gamelan!</span>
+                            </div>
+                        </button>
+
+                        <!-- Tombol Mulai Bermain -->
+                        <button id="tombol-mulai"
+                            class="bg-green-300 hover:bg-green-400 border-4 border-green-400 rounded-3xl p-4 md:p-5 flex items-center shadow-soft transition-transform transform hover:scale-105 active:scale-95 group w-full text-left">
+                            <div class="bg-white rounded-2xl p-3 md:p-4 shadow-sm mr-4 shrink-0">
+                                <!-- SVG Play -->
+                                <svg class="w-8 h-8 md:w-10 md:h-10 text-green-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z">
+                                    </path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="block text-xl md:text-2xl font-bold text-slate-800 mb-1">Mulai
+                                    Bermain</span>
+                                <span class="block text-xs md:text-base font-semibold text-slate-600 leading-tight">Ayo
+                                    main gamelan dengan AR!</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- Layar Sejarah Gamelan (Mode Belajar) -->
+        <div id="layar-sejarah"
+            class="layar-penuh bg-[url('./aset/gambar/latar_sejarah.png')] bg-cover bg-bottom bg-fixed bg-no-repeat font-quicksand text-slate-800 overflow-y-auto overflow-x-hidden sembunyi">
+
+            <!-- Komponen 1: Header (Navigasi) -->
+            <div
+                class="sticky top-0 w-full bg-white/80 backdrop-blur-md shadow-sm z-20 px-4 py-3 md:px-8 flex items-center justify-between">
+                <button id="tombol-kembali-sejarah"
+                    class="bg-white rounded-full p-2 md:p-3 shadow-soft hover:bg-slate-50 transition-colors border-2 border-slate-100 group">
+                    <svg class="w-6 h-6 md:w-7 md:h-7 text-slate-600 group-hover:text-sky-500 transition-colors"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                </button>
+                <h1 class="text-xl md:text-2xl font-bold text-slate-800 absolute left-1/2 transform -translate-x-1/2">
+                    Mengenal Gamelan</h1>
+                <div class="w-10 md:w-14"></div> <!-- Spacer untuk menyeimbangkan flex space-between -->
+            </div>
+
+            <div class="w-full max-w-6xl mx-auto p-4 md:p-8 flex flex-col items-center">
+
+                <!-- Komponen 2: Hero Section & Maskot (Horizontal Layout) -->
+                <div class="flex items-center justify-center gap-4 mb-4 mt-2 w-full">
+                    <img src="./aset/gambar/maskot_transparan.png" alt="Maskot"
+                        class="w-20 h-20 md:w-28 md:h-28 object-contain anim-maskot-bounce drop-shadow-lg shrink-0">
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-3 md:p-4 shadow-md border-2 border-orange-100 relative max-w-lg">
+                        <p class="text-slate-700 font-semibold text-xs md:text-sm">
+                            Ayo pilih kartunya untuk menjelajahi berbagai alat musik tradisional gamelan! Klik kartu
+                            untuk membaca sejarah selengkapnya.
+                        </p>
+                        <!-- Ekor Balon Kiri -->
+                        <div class="absolute top-1/2 -left-3 transform -translate-y-1/2 w-0 h-0 border-t-[8px] border-t-transparent border-r-[10px] border-r-white/90 border-b-[8px] border-b-transparent"></div>
+                    </div>
+                </div>
+
+                <!-- Komponen Tambahan: Kotak Abu (Sejarah Umum) -->
+                <div class="w-full bg-slate-200/90 backdrop-blur-sm rounded-[2rem] p-6 md:p-8 shadow-md border-2 border-slate-300 mb-8 flex items-center justify-center">
+                    <p class="text-slate-700 text-center text-sm md:text-base lg:text-lg font-medium leading-relaxed max-w-4xl">
+                        Gamelan adalah ansambel musik tradisional Indonesia yang menonjolkan alat musik metalofon, gambang, gendang, dan gong. Istilah gamelan merujuk pada instrumennya atau alatnya, yang mana merupakan satu kesatuan utuh yang diwujudkan dan dibunyikan bersama. Akar sejarah gamelan telah ada sejak berabad-abad lalu di Nusantara, konon diciptakan oleh Sang Hyang Guru pada Era Saka, menjadi simbol harmoni dan kebersamaan masyarakat.
+                    </p>
+                </div>
+
+                <!-- Komponen 3: Grid Kartu Instrumen -->
+                <div class="w-full max-w-5xl mx-auto flex flex-wrap justify-center gap-4 md:gap-8 pb-10" id="grid-katalog-sejarah">
+                    <!-- Kartu akan di-generate via JS -->
+                </div>
+
+            </div>
+
+            <!-- Komponen 4: Modal Detail Sejarah (Glassmorphism Pop-up) -->
+            <div id="modal-sejarah" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+                <!-- Overlay Background -->
+                <div class="absolute inset-0 bg-black/40 backdrop-blur-sm modal-overlay"></div>
+
+                <!-- Kontainer Modal -->
+                <div
+                    class="relative bg-white rounded-3xl w-full max-w-2xl max-h-[85vh] shadow-2xl flex flex-col overflow-hidden transform transition-all border-4 border-white/50">
+
+                    <!-- Header Modal -->
+                    <div
+                        class="flex items-center justify-between p-5 md:p-6 border-b-2 border-slate-100 bg-sky-50 shrink-0">
+                        <h2 id="judul-modal-sejarah" class="text-2xl font-bold text-slate-800">Sejarah Instrumen</h2>
+                        <button
+                            class="bg-white rounded-full p-2 shadow-sm hover:bg-rose-50 hover:text-rose-500 transition-colors border-2 border-slate-200 tombol-tutup-modal">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Konten Modal -->
+                    <div class="p-5 md:p-6 overflow-y-auto text-slate-700 font-medium space-y-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-sky-600 mb-1">Asal-Usul</h3>
+                            <p id="teks-asal-usul"></p>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-sky-600 mb-1">Fungsi Sosial</h3>
+                            <p id="teks-fungsi"></p>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-sky-600 mb-1">Cara Memainkan</h3>
+                            <p id="teks-cara-memainkan"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Indikator Loading / Status untuk feedback user -->
+        <div id="layar-loading" class="layar-penuh bg-sky-50 flex flex-col items-center justify-center sembunyi z-50">
+            <!-- Maskot Animasi Loading -->
+            <img src="./aset/gambar/maskot_transparan.png" alt="Loading Mascot"
+                class="w-32 h-32 md:w-40 md:h-40 object-contain anim-maskot-bounce drop-shadow-lg mb-6">
+
+            <div
+                class="bg-white/90 backdrop-blur-sm rounded-3xl p-6 md:p-8 shadow-xl border-2 border-white flex flex-col items-center max-w-sm w-[90%]">
+                <!-- Bouncing Dots Spinner -->
+                <div class="flex gap-2 mb-4">
+                    <div class="w-4 h-4 bg-orange-400 rounded-full animate-bounce"></div>
+                    <div class="w-4 h-4 bg-sky-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                    <div class="w-4 h-4 bg-green-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                </div>
+                <h2 class="text-xl md:text-2xl font-bold text-slate-800 mb-2 text-center">Mohon Tunggu</h2>
+                <p id="teks-status" class="text-slate-600 font-medium text-center text-sm md:text-base">Menyiapkan
+                    Kamera & AI Pelacak Tangan...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Credit / Informasi Tim (Dipindah ke luar agar posisinya mutlak/fixed di layar) -->
+    <div id="modal-credit"
+        class="fixed inset-0 w-full h-full bg-black/60 backdrop-blur-sm sembunyi flex items-center justify-center p-4 z-[60]">
+        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-sm overflow-hidden flex flex-col relative border-4 border-slate-50 transform transition-transform scale-95"
+            id="konten-modal-credit">
+            <!-- Header Modal -->
+            <div class="bg-sky-50 p-4 border-b-2 border-sky-100 flex justify-between items-center relative">
+                <h2 class="text-xl font-bold text-slate-800 w-full text-center">Tentang Pengembang</h2>
+                <button id="tombol-tutup-credit"
+                    class="absolute right-4 text-slate-400 hover:text-red-500 transition-colors bg-white rounded-full p-1.5 shadow-sm">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Isi Modal -->
+            <div class="p-6 flex flex-col items-center text-center">
+                <img src="./aset/gambar/maskot_transparan.png" alt="Maskot"
+                    class="w-20 h-20 md:w-24 md:h-24 object-contain mb-4 anim-maskot-bounce drop-shadow-md">
+
+                <div class="w-full bg-orange-50 rounded-2xl p-4 border-2 border-orange-100 mb-4 shadow-inner">
+                    <p class="text-xs text-orange-600 font-bold uppercase tracking-widest mb-1">Nama Tim</p>
+                    <h3 class="text-2xl font-black text-slate-800 drop-shadow-sm">Mau Have Fun</h3>
+                </div>
+
+                <div class="w-full mb-4">
+                    <p class="text-xs text-sky-600 font-bold uppercase tracking-widest mb-3">Developer</p>
+                    <ul class="text-slate-700 font-bold space-y-1.5 text-[15px] md:text-base">
+                        <li>Arif kurnia rahman</li>
+                        <li>Adha Dwi Fathurrochman</li>
+                        <li>Gigih Panji Mulyanto</li>
+                    </ul>
+                </div>
+
+                <div class="w-full border-t-2 border-slate-100 pt-5 mt-2">
+                    <p class="text-sm font-bold text-slate-500 tracking-wide uppercase">Politeknik Negeri Semarang</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    
+    <!-- Modal Pilihan Laras (Muncul saat marker terdeteksi jika punya laras ganda) -->
+    <div id="modal-pilih-laras" class="fixed inset-0 w-full h-full bg-black/70 backdrop-blur-md sembunyi flex items-center justify-center p-4 z-[70]">
+        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-sm md:max-w-md flex flex-col relative border-4 border-slate-50 transform transition-transform scale-95 pt-4" id="konten-modal-laras">
+            <!-- Tombol Tutup X -->
+            <button id="tombol-tutup-modal-laras" class="absolute top-3 right-3 text-slate-400 hover:text-red-500 transition-colors bg-white rounded-full p-1.5 shadow-md border-2 border-slate-100 z-20">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <!-- Header Modal Laras -->
+            <div class="bg-amber-100 p-5 md:p-6 border-b-4 border-amber-200 flex flex-col items-center relative text-center rounded-t-[1.8rem]">
+                <div class="absolute -top-12 bg-white rounded-full p-2 border-4 border-amber-200 shadow-md z-10">
+                    <img src="./aset/gambar/maskot_transparan.png" alt="Maskot" class="w-16 h-16 md:w-20 md:h-20 object-contain anim-maskot-bounce">
+                </div>
+                <h2 class="text-2xl md:text-3xl font-black text-slate-800 mt-6 mb-1 drop-shadow-sm">Pilih Laras</h2>
+                <p class="text-sm md:text-base font-bold text-amber-700">Alat musik ini punya dua jenis nada lho! Kamu mau main yang mana?</p>
+            </div>
+            
+            <!-- Tombol Pilihan -->
+            <div class="p-6 md:p-8 flex flex-col md:flex-row gap-4 justify-center items-center bg-slate-50 rounded-b-[1.8rem]">
+                <button class="tombol-pilih-laras w-full bg-rose-400 hover:bg-rose-500 text-white rounded-3xl p-5 border-b-8 border-rose-600 active:border-b-0 active:translate-y-2 transition-all shadow-lg flex flex-col items-center group" data-laras="pelog">
+                    <span class="text-3xl md:text-4xl mb-2 group-hover:scale-110 transition-transform">🌺</span>
+                    <span class="text-xl font-black uppercase tracking-widest drop-shadow-md">Pelog</span>
+                </button>
+                <button class="tombol-pilih-laras w-full bg-emerald-400 hover:bg-emerald-500 text-white rounded-3xl p-5 border-b-8 border-emerald-600 active:border-b-0 active:translate-y-2 transition-all shadow-lg flex flex-col items-center group" data-laras="slendro">
+                    <span class="text-3xl md:text-4xl mb-2 group-hover:scale-110 transition-transform">⭐</span>
+                    <span class="text-xl font-black uppercase tracking-widest drop-shadow-md">Slendro</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Pilihan Instrumen Manual -->
+    <div id="modal-pilih-instrumen" class="fixed inset-0 w-full h-full bg-black/70 backdrop-blur-md sembunyi flex items-center justify-center p-4 z-[75]">
+        <div class="bg-slate-50 rounded-[3rem] shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col relative border-[6px] border-sky-300 transform transition-transform scale-95 max-h-[85vh]">
+            <div class="bg-sky-400 p-5 border-b-4 border-sky-500 flex justify-between items-center relative">
+                <h2 class="text-xl md:text-2xl font-black text-white w-full text-center drop-shadow-sm">Pilih Alat Musikmu! 🎵</h2>
+                <button id="tombol-tutup-pilih-instrumen" class="absolute right-4 text-sky-700 hover:text-white hover:bg-rose-500 transition-colors bg-white rounded-full p-2 shadow-sm">
+                    <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div id="daftar-tombol-instrumen-manual" class="p-5 md:p-6 grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5 overflow-y-auto max-h-[60vh]">
+                <!-- Didefinisikan secara dinamis via JavaScript di app.js -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modul Utama JavaScript -->
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>

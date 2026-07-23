@@ -1,0 +1,425 @@
+/* CSS untuk NusantARa - Web-AR Edukasi Gamelan */
+:root {
+    --warna-primer: #D4AF37; /* Warna emas premium/kuningan gamelan */
+    --warna-primer-gelap: #AA8B28;
+    --warna-sekunder: #2A2A2A;
+    --warna-latar: #0a0a0a;
+    --warna-teks: #F5F5F5;
+    --font-utama: 'Outfit', sans-serif;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--warna-latar);
+    font-family: var(--font-utama);
+    color: var(--warna-teks);
+    -webkit-tap-highlight-color: transparent;
+}
+
+#wadah-aplikasi {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+}
+
+/* Mode AR Containers */
+#wadah-ar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+}
+
+/* Video Kamera */
+#videoKamera {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    transform: scaleX(-1) !important; /* Kamera dijadikan mirror agar interaksi tangan natural */
+}
+
+/* Canvas UI */
+#canvasUI {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: auto; /* Agar bisa menerima event sentuhan/drag */
+    transform: scaleX(-1) !important; /* Canvas juga di-mirror agar sinkron dengan video */
+}
+
+/* Kontrol AR */
+.kontrol-ar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    z-index: 15;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none; /* Let children handle events */
+}
+
+.kontrol-ar button {
+    pointer-events: auto;
+}
+
+.panduan-teks {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    font-size: 0.9rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+    color: var(--warna-primer);
+}
+
+/* Layar Overlay Base */
+.layar-penuh {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+    transition: opacity 0.4s ease, visibility 0.4s;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.sembunyi {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Animasi Ornamen Latar Belakang (Beranda) */
+@keyframes float-slow {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+@keyframes float-medium {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(-10deg); }
+}
+
+@keyframes float-fast {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-25px) rotate(15deg); }
+}
+
+@keyframes pulse-soft {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.1); opacity: 0.6; }
+}
+
+.ornamen {
+    position: absolute;
+    pointer-events: none;
+}
+
+.anim-float-slow { animation: float-slow 6s ease-in-out infinite; }
+.anim-float-medium { animation: float-medium 4.5s ease-in-out infinite; }
+.anim-float-fast { animation: float-fast 3.5s ease-in-out infinite; }
+.anim-pulse-soft { animation: pulse-soft 4s ease-in-out infinite; }
+
+/* Animasi Maskot */
+@keyframes maskot-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+.anim-maskot-bounce {
+    animation: maskot-bounce 3s ease-in-out infinite;
+    transform-origin: bottom center;
+}
+
+.kartu-kaca {
+    background: rgba(20, 20, 20, 0.55);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    border-radius: 24px;
+    padding: 40px 30px;
+    width: 85%;
+    max-width: 480px;
+    text-align: center;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(212, 175, 55, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    transform: translateY(0);
+}
+
+.kartu-kaca.beranda {
+    animation: mengambang 6s ease-in-out infinite;
+}
+
+@keyframes mengambang {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.logo-container h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin: 0 0 5px 0;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #ffffff 0%, #D4AF37 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logo-container h1 span {
+    color: var(--warna-primer);
+    -webkit-text-fill-color: var(--warna-primer);
+}
+
+.logo-container .subtitle {
+    font-size: 1rem;
+    font-weight: 300;
+    color: #a0a0a0;
+    margin: 0;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+/* Maskot Container */
+.maskot-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.maskot-visual {
+    font-size: 4rem;
+    filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4));
+    animation: bounceSedikit 3s ease-in-out infinite;
+}
+
+@keyframes bounceSedikit {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-5px) scale(1.05); }
+}
+
+.balon-kata {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    position: relative;
+}
+
+.balon-kata::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 8px 8px 8px;
+    border-style: solid;
+    border-color: transparent transparent rgba(255, 255, 255, 0.15) transparent;
+}
+
+/* Grup Tombol */
+.grup-tombol {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Tombol Primer */
+.tombol-primer {
+    background: linear-gradient(135deg, var(--warna-primer) 0%, var(--warna-primer-gelap) 100%);
+    color: #111;
+    border: none;
+    border-radius: 50px;
+    padding: 16px 28px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 160px;
+    box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+}
+
+.tombol-primer:hover, .tombol-primer:active {
+    transform: scale(0.97) translateY(2px);
+    box-shadow: 0 5px 10px rgba(212, 175, 55, 0.3);
+}
+
+.tombol-primer .ikon {
+    animation: pulseIkon 2s infinite;
+}
+
+@keyframes pulseIkon {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(0.9); }
+}
+
+/* Tombol Sekunder Besar */
+.tombol-sekunder-besar {
+    background: rgba(42, 42, 42, 0.8);
+    color: var(--warna-teks);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    padding: 16px 28px;
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 160px;
+}
+
+.tombol-sekunder-besar:hover {
+    background: rgba(60, 60, 60, 0.9);
+    border-color: var(--warna-primer);
+}
+
+/* Tombol Sekunder (Kecil) */
+.tombol-sekunder {
+    background: rgba(20, 20, 20, 0.7);
+    color: var(--warna-teks);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 30px;
+    padding: 10px 18px;
+    font-size: 0.85rem;
+    font-weight: 400;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(5px);
+}
+
+.tombol-sekunder:hover {
+    background: rgba(40, 40, 40, 0.8);
+    border-color: var(--warna-primer);
+}
+
+/* Tombol Lingkaran (Close) */
+.tombol-lingkaran-kembali {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #2a2a2a;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.tombol-lingkaran-kembali:hover {
+    background: #ff4444;
+    border-color: #ff4444;
+    transform: scale(1.1);
+}
+
+
+
+/* Loader / Layar Loading */
+#layar-loading {
+    background: rgba(5, 5, 5, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 30; /* Paling atas saat aktif */
+}
+
+.loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.spinner {
+    width: 56px;
+    height: 56px;
+    border: 3px solid rgba(212, 175, 55, 0.15);
+    border-radius: 50%;
+    border-top-color: var(--warna-primer);
+    animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+
+#teks-status {
+    font-size: 1.1rem;
+    color: var(--warna-primer);
+    letter-spacing: 1px;
+    font-weight: 300;
+    text-align: center;
+    max-width: 80%;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsif Mobile Khusus */
+@media (max-width: 480px) {
+    .logo-container h1 { font-size: 2.2rem; }
+    .kartu-kaca { padding: 30px 20px; gap: 24px; width: 88%; }
+    .logo-container .subtitle { font-size: 0.85rem; letter-spacing: 2px; }
+    .grup-tombol { flex-direction: column; width: 100%; }
+    .kontrol-ar { top: 10px; left: 10px; right: 10px; }
+    .panduan-teks { display: none; /* Sembunyikan teks panduan di layar sangat kecil agar tidak menghalangi */ }
+}
+
+/* Hide scrollbar for carousel */
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}

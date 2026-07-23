@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindAR Compiler - NusantARa</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #f1f5f9; padding: 24px; min-height: 100vh; }
+        h1 { font-size: 2rem; font-weight: 900; color: #fbbf24; margin-bottom: 6px; }
+        p.sub { color: #94a3b8; margin-bottom: 24px; }
+        .card { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+        .card h2 { font-size: 1rem; font-weight: 700; color: #fbbf24; margin-bottom: 12px; }
+        label.file-label { display: block; border: 2px dashed #475569; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; transition: border-color 0.2s; }
+        label.file-label:hover { border-color: #fbbf24; }
+        input[type=file] { display: none; }
+        .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
+        .thumb-card { text-align: center; }
+        .thumb-card img { width: 100%; border-radius: 8px; border: 2px solid #10b981; margin-bottom: 4px; }
+        .thumb-card .thumb-empty { width: 100%; aspect-ratio: 2/3; background: #1e293b; border: 2px solid #ef4444; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #ef4444; font-size: 12px; margin-bottom: 4px; }
+        .thumb-card p { font-size: 10px; color: #94a3b8; }
+        .btn { width: 100%; padding: 14px; font-size: 1rem; font-weight: 900; border: none; border-radius: 12px; cursor: pointer; transition: all 0.2s; }
+        .btn-primary { background: #fbbf24; color: #0f172a; }
+        .btn-primary:hover:not(:disabled) { background: #f59e0b; }
+        .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+        #log { background: #0f172a; border-radius: 10px; padding: 12px; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 11px; }
+        #log .ok { color: #34d399; }
+        #log .warn { color: #fbbf24; }
+        #log .err { color: #f87171; }
+        #log .info { color: #94a3b8; }
+        .progress-wrap { background: #334155; border-radius: 9999px; height: 8px; margin: 8px 0; }
+        .progress-bar { background: #fbbf24; height: 8px; border-radius: 9999px; transition: width 0.3s; }
+        .download-area { background: rgba(16,185,129,0.1); border: 1px solid #10b981; border-radius: 16px; padding: 20px; text-align: center; margin-top: 16px; display: none; }
+        .download-area p { color: #34d399; font-weight: 700; margin-bottom: 8px; }
+        .download-area small { color: #94a3b8; display: block; margin-bottom: 12px; }
+        .btn-download { display: inline-block; padding: 12px 32px; background: #10b981; color: white; font-weight: 900; text-decoration: none; border-radius: 12px; font-size: 1rem; }
+        #status-text { font-size: 12px; color: #94a3b8; float: right; }
+    </style>
+</head>
+<body>
+
+<h1>🎯 MindAR Target Compiler</h1>
+<p class="sub">Kompilasi ulang <code>targets.mind</code> dari gambar kartu gamelan.</p>
+
+<!-- Urutan kartu -->
+<div class="card">
+    <h2>📋 Urutan markerIndex (JANGAN DIUBAH)</h2>
+    <div class="grid4" id="urutan-kartu"></div>
+</div>
+
+<!-- Upload -->
+<div class="card">
+    <h2>📁 Upload Semua Kartu (8 file sekaligus)</h2>
+    <label class="file-label" for="input-file">
+        <div style="font-size:2rem;margin-bottom:8px">📂</div>
+        <div style="font-weight:700;margin-bottom:4px">Klik untuk pilih file</div>
+        <div style="font-size:12px;color:#94a3b8">Pilih semua 8 file card_*.png sekaligus</div>
+    </label>
+    <input type="file" id="input-file" multiple accept="image/png,image/jpeg,image/webp">
+    <div class="grid4" id="preview-area" style="margin-top:12px"></div>
+</div>
+
+<!-- Tombol -->
+<button class="btn btn-primary" id="btn-compile" disabled>🔨 Compile targets.mind</button>
+
+<!-- Progress & Log -->
+<div class="card" style="margin-top:16px">
+    <h2>📊 Progress <span id="status-text">Menunggu upload...</span></h2>
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div id="log"></div>
+</div>
+
+<!-- Download -->
+<div class="download-area" id="download-area">
+    <p>✅ targets.mind berhasil dibuat!</p>
+    <small>Letakkan file ini di <code>aset/marker/targets.mind</code> (timpa yang lama)</small>
+    <a href="#" id="link-download" class="btn-download" download="targets.mind">⬇️ Download targets.mind</a>
+</div>
+
+<!-- Load MindAR sebagai ES module agar window.MINDAR tersedia -->
+<script type="module">
+    // Import MindAR — ini akan set window.MINDAR.IMAGE
+    await import('https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js');
+    window.__mindarLoaded = true;
+    addLog('✅ MindAR library berhasil dimuat.', 'ok');
+    document.getElementById('status-text').textContent = 'Siap';
+</script>
+
+<script>
+    // Urutan HARUS sesuai markerIndex di instrumen.json
+    const KARTU = [
+        { index: 0, nama: 'Bonang Barung',    file: 'card_bonang_barung.png' },
+        { index: 1, nama: 'Bonang Penerus',   file: 'card_bonang_penerus.png' },
+        { index: 2, nama: 'Gong (Ageng)',      file: 'card_gong.png' },
+        { index: 3, nama: 'Kendang',          file: 'card_kendang.png' },
+        { index: 4, nama: 'Kenong',           file: 'card_kenong.png' },
+        { index: 5, nama: 'Saron Barung',     file: 'card_saron_barung.png' },
+        { index: 6, nama: 'Saron Panembung',  file: 'card_saron_panembung.png' },
+        { index: 7, nama: 'Saron Penerus',    file: 'card_saron_penerus.png' },
+    ];
+
+    const elUrutan = document.getElementById('urutan-kartu');
+    const elInputFile = document.getElementById('input-file');
+    const elPreview = document.getElementById('preview-area');
+    const elBtnCompile = document.getElementById('btn-compile');
+    const elLog = document.getElementById('log');
+    const elProgressBar = document.getElementById('progress-bar');
+    const elStatus = document.getElementById('status-text');
+    const elDownload = document.getElementById('download-area');
+    const elLinkDownload = document.getElementById('link-download');
+
+    // Render daftar urutan
+    KARTU.forEach(k => {
+        elUrutan.innerHTML += `<div style="background:#0f172a;border-radius:8px;padding:8px;font-size:11px;display:flex;gap:6px;align-items:center">
+            <span style="color:#fbbf24;font-weight:900">[${k.index}]</span>
+            <span style="color:#94a3b8">${k.nama}</span>
+        </div>`;
+    });
+
+    function addLog(msg, type = 'info') {
+        const div = document.createElement('div');
+        div.className = type;
+        div.textContent = `${new Date().toLocaleTimeString()} | ${msg}`;
+        elLog.appendChild(div);
+        elLog.scrollTop = elLog.scrollHeight;
+    }
+
+    function setProgress(pct, status) {
+        elProgressBar.style.width = pct + '%';
+        if (status) elStatus.textContent = status;
+    }
+
+    // State gambar yang sudah diurutkan
+    let sortedImages = []; // array HTMLImageElement sesuai urutan KARTU
+
+    elInputFile.addEventListener('change', async (e) => {
+        const files = Array.from(e.target.files);
+        if (files.length === 0) return;
+
+        elPreview.innerHTML = '';
+        elDownload.style.display = 'none';
+        elBtnCompile.disabled = true;
+        sortedImages = [];
+        addLog(`📂 ${files.length} file dipilih. Mencocokkan dengan urutan kartu...`, 'info');
+
+        // Buat map nama file → File object (case insensitive, tanpa extension)
+        const fileByName = {};
+        files.forEach(f => {
+            const namaBersih = f.name.toLowerCase().replace(/\.(png|jpg|jpeg|webp)$/, '');
+            fileByName[namaBersih] = f;
+            // Juga simpan nama asli
+            fileByName[f.name.toLowerCase()] = f;
+        });
+
+        // Cocokkan dengan KARTU
+        const imgElements = [];
+        let allFound = true;
+
+        for (const k of KARTU) {
+            const namaExpected = k.file.toLowerCase().replace('.png', '');
+            const f = fileByName[namaExpected] || fileByName[k.file.toLowerCase()];
+
+            if (f) {
+                const img = await loadImageFromFile(f);
+                imgElements.push({ k, img, found: true, file: f });
+                addLog(`✅ [${k.index}] ${k.nama}: ${f.name} (${img.width}x${img.height})`, 'ok');
+            } else {
+                imgElements.push({ k, img: null, found: false });
+                addLog(`⚠️ [${k.index}] ${k.nama}: tidak ditemukan (${k.file})`, 'warn');
+                allFound = false;
+            }
+        }
+
+        // Jika ada file yang tidak cocok otomatis, urut berdasarkan urutan upload
+        if (!allFound && files.length === 8) {
+            addLog('ℹ️ Nama file tidak cocok persis. Menggunakan urutan upload sebagai urutan kartu.', 'warn');
+            sortedImages = [];
+            for (let i = 0; i < Math.min(files.length, KARTU.length); i++) {
+                const img = await loadImageFromFile(files[i]);
+                sortedImages.push(img);
+                imgElements[i] = { k: KARTU[i], img, found: true, file: files[i] };
+            }
+            allFound = true;
+        } else {
+            sortedImages = imgElements.filter(e => e.found).map(e => e.img);
+        }
+
+        // Render preview
+        imgElements.forEach(({ k, img, found, file }) => {
+            const div = document.createElement('div');
+            div.className = 'thumb-card';
+            if (found && img) {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width; canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                const url = canvas.toDataURL();
+                div.innerHTML = `<img src="${url}"><p>[${k.index}] ${k.nama}<br><span style="font-size:9px;color:#94a3b8">${file?.name || ''}</span></p>`;
+            } else {
+                div.innerHTML = `<div class="thumb-empty">❌ Tidak ada</div><p style="color:#ef4444">[${k.index}] ${k.nama}</p>`;
+            }
+            elPreview.appendChild(div);
+        });
+
+        if (sortedImages.length >= 1) {
+            elBtnCompile.disabled = false;
+            addLog(`✅ ${sortedImages.length} gambar siap dikompilasi.`, 'ok');
+            setProgress(0, `${sortedImages.length} gambar siap`);
+        }
+    });
+
+    elBtnCompile.addEventListener('click', async () => {
+        if (!window.__mindarLoaded || !window.MINDAR?.IMAGE) {
+            addLog('❌ MindAR library belum siap. Tunggu beberapa detik lalu coba lagi.', 'err');
+            return;
+        }
+        if (sortedImages.length === 0) {
+            addLog('❌ Tidak ada gambar yang siap dikompilasi.', 'err');
+            return;
+        }
+
+        elBtnCompile.disabled = true;
+        elDownload.style.display = 'none';
+        elLog.innerHTML = '';
+        setProgress(5, 'Memulai kompilasi...');
+        addLog(`🔨 Mulai kompilasi ${sortedImages.length} target...`, 'info');
+
+        try {
+            // Akses Compiler dari window.MINDAR.IMAGE
+            if (!window.MINDAR.IMAGE.Compiler) {
+                throw new Error('window.MINDAR.IMAGE.Compiler tidak ditemukan. Versi MindAR tidak mendukung compilation via browser.');
+            }
+
+            const compiler = new window.MINDAR.IMAGE.Compiler();
+            addLog('✅ Compiler diinisialisasi.', 'ok');
+
+            setProgress(10, 'Mengkompilasi...');
+            addLog('⚙️ Proses kompilasi dimulai (mungkin 1-3 menit)...', 'info');
+
+            const dataList = await compiler.compileImageTargets(sortedImages, (progress) => {
+                const pct = 10 + (progress * 80);
+                setProgress(pct, `Kompilasi ${Math.round(progress * 100)}%...`);
+            });
+
+            addLog('✅ Kompilasi selesai! Mengekspor data...', 'ok');
+            setProgress(93, 'Mengekspor...');
+
+            const buffer = await compiler.exportData();
+            const blob = new Blob([buffer]);
+            const url = URL.createObjectURL(blob);
+
+            elLinkDownload.href = url;
+            elDownload.style.display = 'block';
+            setProgress(100, '✅ Selesai!');
+            addLog(`🎉 BERHASIL! targets.mind (${(blob.size/1024).toFixed(1)} KB) siap diunduh.`, 'ok');
+            addLog('📁 Letakkan file ini di: aset/marker/targets.mind (timpa yang lama)', 'info');
+        } catch (err) {
+            addLog(`❌ Error: ${err.message}`, 'err');
+            console.error(err);
+            setProgress(0, '❌ Gagal');
+            elBtnCompile.disabled = false;
+        }
+    });
+
+    function loadImageFromFile(file) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            const url = URL.createObjectURL(file);
+            img.onload = () => { resolve(img); };
+            img.onerror = reject;
+            img.src = url;
+        });
+    }
+</script>
+
+</body>
+</html>

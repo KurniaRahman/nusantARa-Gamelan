@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindAR Detection Test</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; padding: 20px; }
+        h1 { color: #fbbf24; margin-bottom: 16px; }
+        .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+        .card h2 { color: #fbbf24; font-size: 14px; margin-bottom: 8px; }
+        canvas { max-width: 100%; border: 2px solid #334155; border-radius: 8px; display: block; margin: 8px auto; }
+        #log { background: #0f172a; border-radius: 8px; padding: 12px; max-height: 300px; overflow-y: auto; font-family: monospace; font-size: 11px; white-space: pre-wrap; }
+        .ok { color: #34d399; } .err { color: #f87171; } .warn { color: #fbbf24; } .info { color: #94a3b8; }
+        button { padding: 12px 24px; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; margin: 4px; font-size: 14px; }
+        .btn-primary { background: #fbbf24; color: #0f172a; }
+        .btn-secondary { background: #475569; color: white; }
+        .flex-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+        .status-box { padding: 12px; border-radius: 8px; font-weight: 700; font-size: 16px; text-align: center; margin: 8px 0; }
+        .status-ok { background: #064e3b; color: #34d399; border: 2px solid #10b981; }
+        .status-fail { background: #450a0a; color: #f87171; border: 2px solid #ef4444; }
+    </style>
+</head>
+<body>
+
+<h1>🔬 MindAR Detection Diagnostics</h1>
+<p style="color:#94a3b8;margin-bottom:16px">Halaman ini menguji apakah targets.mind bisa mendeteksi gambar kartu secara langsung (tanpa kamera).</p>
+
+<div class="card">
+    <h2>📋 Test 1: Verifikasi .mind File</h2>
+    <p style="font-size:12px;color:#94a3b8;margin-bottom:8px">Memuat targets.mind dan memeriksa jumlah target yang terkompilasi.</p>
+    <button class="btn-primary" id="btn-test-mind" onclick="testMindFile()">▶ Periksa targets.mind</button>
+    <div id="result-mind"></div>
+</div>
+
+<div class="card">
+    <h2>📋 Test 2: Feed Gambar Kartu ke MindAR (tanpa kamera)</h2>
+    <p style="font-size:12px;color:#94a3b8;margin-bottom:8px">Memuat salah satu gambar kartu, lalu mencoba mendeteksinya dengan MindAR Controller. Ini menguji apakah matching bekerja.</p>
+    <div class="flex-wrap" id="btn-kartu-container"></div>
+    <canvas id="test-canvas" width="640" height="480" style="display:none"></canvas>
+    <div id="result-detect"></div>
+</div>
+
+<div class="card">
+    <h2>📋 Console Log</h2>
+    <div id="log"></div>
+</div>
+
+<script type="module">
+    await import('https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js');
+    window.__mindarReady = true;
+    addLog('✅ MindAR library dimuat. window.MINDAR.IMAGE tersedia.', 'ok');
+    addLog(`   Controller: ${typeof window.MINDAR.IMAGE.Controller}`, 'info');
+    addLog(`   Compiler: ${typeof window.MINDAR.IMAGE.Compiler}`, 'info');
+</script>
+
+<script>
+    const KARTU = [
+        { index: 0, nama: 'Bonang Barung',    file: './aset/marker/card_bonang_barung.png' },
+        { index: 1, nama: 'Bonang Penerus',   file: './aset/marker/card_bonang_penerus.png' },
+        { index: 2, nama: 'Gong',             file: './aset/marker/card_gong.png' },
+        { index: 3, nama: 'Kendang',           file: './aset/marker/card_kendang.png' },
+        { index: 4, nama: 'Kenong',            file: './aset/marker/card_kenong.png' },
+        { index: 5, nama: 'Saron Barung',      file: './aset/marker/card_saron_barung.png' },
+        { index: 6, nama: 'Saron Panembung',   file: './aset/marker/card_saron_panembung.png' },
+        { index: 7, nama: 'Saron Penerus',     file: './aset/marker/card_saron_penerus.png' },
+    ];
+
+    const elLog = document.getElementById('log');
+    const elBtnContainer = document.getElementById('btn-kartu-container');
+
+    // Buat tombol untuk setiap kartu
+    KARTU.forEach(k => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-secondary';
+        btn.textContent = `[${k.index}] ${k.nama}`;
+        btn.onclick = () => testDetection(k);
+        elBtnContainer.appendChild(btn);
+    });
+
+    function addLog(msg, type = 'info') {
+        const div = document.createElement('div');
+        div.className = type;
+        div.textContent = msg;
+        elLog.appendChild(div);
+        elLog.scrollTop = elLog.scrollHeight;
+    }
+
+    function showResult(containerId, success, message) {
+        const el = document.getElementById(containerId);
+        el.innerHTML = `<div class="status-box ${success ? 'status-ok' : 'status-fail'}">${message}</div>`;
+    }
+
+    let testController = null;
+
+    window.testMindFile = async function() {
+        if (!window.__mindarReady) {
+            addLog('⏳ MindAR belum siap, tunggu sebentar...', 'warn');
+            return;
+        }
+
+        addLog('--- Test 1: Memuat targets.mind ---', 'info');
+        try {
+            // Buat controller sementara dengan ukuran dummy
+            testController = new window.MINDAR.IMAGE.Controller({
+                inputWidth: 640,
+                inputHeight: 480,
+                maxTrack: 1,
+                warmupTolerance: 0,
+                missTolerance: 5,
+                onUpdate: (data) => {
+                    if (data.type === 'updateMatrix') {
+                        const idx = data.targetIndex;
+                        const m = data.worldMatrix;
+                        if (m !== null) {
+                            addLog(`🎯 TERDETEKSI! targetIndex=${idx}`, 'ok');
+                            showResult('result-detect', true, `✅ TERDETEKSI! Target index ${idx} cocok!`);
+                        }
+                    }
+                    if (data.type === 'processDone') {
+                        window.__frameCount = (window.__frameCount || 0) + 1;
+                    }
+                }
+            });
+
+            const result = await testController.addImageTargets('./aset/marker/targets.mind');
+            
+            addLog(`✅ targets.mind berhasil dimuat!`, 'ok');
+            addLog(`   Hasil addImageTargets: ${JSON.stringify(result).substring(0, 200)}`, 'info');
+            
+            // Periksa trackingStates
+            if (testController.trackingStates) {
+                addLog(`   trackingStates length: ${testController.trackingStates.length}`, 'info');
+            }
+            if (testController.markerDimensions) {
+                addLog(`   markerDimensions: ${JSON.stringify(testController.markerDimensions)}`, 'info');
+            }
+            
+            // Cek berapa target yang terdaftar
+            let targetCount = 0;
+            if (result && Array.isArray(result)) {
+                targetCount = result.length;
+            } else if (result && result.dimensions) {
+                targetCount = result.dimensions.length;
+            } else if (result && typeof result === 'object') {
+                targetCount = Object.keys(result).length;
+            }
+            
+            addLog(`   Jumlah target terdaftar: ${targetCount}`, 'info');
+            
+            if (targetCount > 0) {
+                showResult('result-mind', true, `✅ targets.mind valid! ${targetCount} target terdaftar.`);
+            } else {
+                showResult('result-mind', false, `⚠️ targets.mind dimuat tapi jumlah target tidak jelas. Cek log.`);
+            }
+            
+        } catch (err) {
+            addLog(`❌ Gagal memuat targets.mind: ${err.message}`, 'err');
+            showResult('result-mind', false, `❌ Gagal memuat: ${err.message}`);
+            console.error(err);
+        }
+    };
+
+    async function testDetection(kartu) {
+        if (!testController) {
+            addLog('⚠️ Jalankan Test 1 dulu untuk memuat targets.mind!', 'warn');
+            return;
+        }
+
+        addLog(`--- Test 2: Menguji deteksi [${kartu.index}] ${kartu.nama} ---`, 'info');
+
+        try {
+            // Muat gambar kartu
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            await new Promise((resolve, reject) => {
+                img.onload = resolve;
+                img.onerror = () => reject(new Error(`Gagal memuat ${kartu.file}`));
+                img.src = kartu.file;
+            });
+            addLog(`   Gambar dimuat: ${img.width}x${img.height}`, 'ok');
+
+            // Gambar ke canvas
+            const canvas = document.getElementById('test-canvas');
+            canvas.width = 640;
+            canvas.height = 480;
+            canvas.style.display = 'block';
+            const ctx = canvas.getContext('2d');
+            
+            // Gambar kartu di tengah canvas dengan beberapa variasi
+            ctx.fillStyle = '#888888';
+            ctx.fillRect(0, 0, 640, 480);
+            
+            // Scale gambar agar pas di canvas
+            const scale = Math.min(500 / img.width, 400 / img.height);
+            const drawW = img.width * scale;
+            const drawH = img.height * scale;
+            const drawX = (640 - drawW) / 2;
+            const drawY = (480 - drawH) / 2;
+            ctx.drawImage(img, drawX, drawY, drawW, drawH);
+            
+            addLog(`   Canvas dirender: gambar ${drawW.toFixed(0)}x${drawH.toFixed(0)} di canvas 640x480`, 'info');
+
+            // Stop controller lama jika ada
+            try { testController.stopProcessVideo(); } catch(e) {}
+            
+            // Reset tracking states
+            window.__frameCount = 0;
+            window.__detected = false;
+            
+            addLog('   Memulai deteksi (10 frame)...', 'info');
+            
+            // Jalankan processVideo dengan canvas sebagai input
+            testController.processVideo(canvas);
+            
+            // Tunggu beberapa frame
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            
+            // Stop
+            testController.stopProcessVideo();
+            
+            addLog(`   Selesai. Frame diproses: ${window.__frameCount}`, 'info');
+            
+            if (!window.__detected) {
+                // Jika tidak terdeteksi, coba detect manual
+                addLog('   Mencoba deteksi manual dengan detect()...', 'info');
+                try {
+                    const detectResult = await testController.detect(canvas);
+                    addLog(`   Feature points: ${detectResult?.featurePoints?.length ?? 'N/A'}`, 'info');
+                    if (detectResult?.featurePoints?.length > 0) {
+                        addLog(`   ✅ Feature points DITEMUKAN di gambar kamera (${detectResult.featurePoints.length} titik)`, 'ok');
+                        
+                        // Coba match
+                        try {
+                            const matchResult = await testController.match(detectResult.featurePoints, kartu.index);
+                            addLog(`   Match result: ${JSON.stringify(matchResult).substring(0, 200)}`, 'info');
+                        } catch (e) {
+                            addLog(`   match() error: ${e.message}`, 'warn');
+                        }
+                    } else {
+                        addLog(`   ⚠️ Tidak ada feature points di gambar. Kartu mungkin kurang detail.`, 'warn');
+                    }
+                } catch(e) {
+                    addLog(`   detect() error: ${e.message}`, 'warn');
+                }
+                
+                showResult('result-detect', false, `❌ Kartu [${kartu.index}] ${kartu.nama} TIDAK terdeteksi oleh targets.mind`);
+            }
+            
+        } catch (err) {
+            addLog(`❌ Error: ${err.message}`, 'err');
+            showResult('result-detect', false, `❌ Error: ${err.message}`);
+            console.error(err);
+        }
+    }
+</script>
+
+</body>
+</html>
