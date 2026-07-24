@@ -7,7 +7,7 @@ const dataInstrumen = [
     {
         id: "gong",
         nama: "Gong (Ageng)",
-        gambar: "./aset/marker/card_gong.webp",
+        gambar: "./aset/marker/card_gong.png",
         deskripsiSingkat: "Instrumen terbesar dan paling dihormati, penanda akhir siklus lagu.",
         asalUsul: "Gong adalah salah satu alat musik tertua di Nusantara yang terbuat dari perunggu atau kuningan besar. Sejak zaman kerajaan kuno, gong sering dianggap sebagai alat musik yang paling dihormati dan sakral. Dalam tradisi Jawa, gong sering diberi nama kehormatan (sebutan 'Kyai') karena dipercaya memiliki 'roh' pelindung ansambel gamelan.",
         fungsi: "Gong adalah nyawa sekaligus tanda baca terbesar dalam gamelan. Bunyinya yang sangat rendah dan bergema panjang berfungsi sebagai penanda akhir dari satu putaran lagu (gongan). Saat gong berbunyi, itu menyatukan semua irama alat musik lain menjadi satu harmoni yang utuh.",
@@ -16,7 +16,7 @@ const dataInstrumen = [
     {
         id: "bonang-barung",
         nama: "Bonang Barung",
-        gambar: "./aset/marker/card_bonang_barung.webp",
+        gambar: "./aset/marker/card_bonang_barung.png",
         deskripsiSingkat: "Kumpulan gong kecil berbentuk pot, pemimpin dan pembuka melodi.",
         asalUsul: "Bonang merupakan kumpulan gong-gong kecil yang disusun secara mendatar di atas tali (rancakan). Alat musik ini sudah menjadi bagian tak terpisahkan dari gamelan sejak era Majapahit, melambangkan kebersamaan masyarakat Jawa yang tersusun rapi.",
         fungsi: "Bonang Barung bertugas sebagai pembuka (buka) atau pemimpin melodi dalam banyak lagu (gendhing) gamelan. Ia memberikan petunjuk nada dan menuntun alur melodi yang akan diikuti oleh instrumen-instrumen lainnya.",
@@ -25,7 +25,7 @@ const dataInstrumen = [
     {
         id: "bonang-penerus",
         nama: "Bonang Penerus",
-        gambar: "./aset/marker/card_bonang_penerus.webp",
+        gambar: "./aset/marker/card_bonang_penerus.png",
         deskripsiSingkat: "Versi kecil dari bonang barung, bersuara lebih tinggi dan cepat.",
         asalUsul: "Bonang Penerus adalah 'adik' dari Bonang Barung. Bentuknya persis sama, namun ukuran pencon-nya lebih kecil. Pembuatan alat musik kembar ini merupakan filosofi masyarakat tradisional tentang pentingnya generasi penerus yang melengkapi peran generasi sebelumnya.",
         fungsi: "Jika Bonang Barung adalah pemimpin melodi, Bonang Penerus bertugas untuk meramaikan melodi tersebut. Alat musik ini menghasilkan nada satu oktaf lebih tinggi dan dimainkan dua kali lebih cepat dari Bonang Barung, menciptakan nada-nada rapat yang saling bersahutan (teknik imbal).",
@@ -34,7 +34,7 @@ const dataInstrumen = [
     {
         id: "kendang",
         nama: "Kendang (Gendang)",
-        gambar: "./aset/marker/card_kendang.webp",
+        gambar: "./aset/marker/card_kendang.png",
         deskripsiSingkat: "Instrumen perkusi berlapis kulit, sang konduktor pengatur tempo.",
         asalUsul: "Kendang adalah instrumen perkusi berlapis kulit hewan (biasanya sapi atau kerbau) yang jejak sejarahnya dapat ditemukan di relief Candi Borobudur (abad ke-9). Alat musik ini tersebar hampir di seluruh budaya Nusantara dengan berbagai ukuran dan nama.",
         fungsi: "Kendang adalah 'Konduktor' alias pengatur ritme dalam gamelan. Pemain kendang (disebut pengendang) bertanggung jawab mengatur cepat-lambatnya tempo (irama), memberi aba-aba kapan lagu dimulai, kapan berubah irama, dan kapan lagu harus diakhiri.",
@@ -43,7 +43,7 @@ const dataInstrumen = [
     {
         id: "kenong",
         nama: "Kenong",
-        gambar: "./aset/marker/card_kenong.webp",
+        gambar: "./aset/marker/card_kenong.png",
         deskripsiSingkat: "Gong mendatar bersuara nyaring penopang struktur melodi.",
         asalUsul: "Kenong adalah instrumen berbentuk seperti gong namun berukuran lebih gemuk dan berposisi horizontal (mendatar). Alat musik ini menjadi salah satu penopang utama struktur lagu dalam tradisi musik keraton di Jawa dan Bali.",
         fungsi: "Jika Gong membagi lagu menjadi bagian yang besar, Kenong bertugas membagi lagu menjadi bagian-bagian yang lebih kecil (disebut kenongan). Suaranya yang khas, nyaring, dan bergema panjang (sustain) berfungsi sebagai pilar-pilar penyangga melodi agar lagu terdengar kokoh.",
@@ -52,7 +52,7 @@ const dataInstrumen = [
     {
         id: "saron-peking",
         nama: "Saron Penerus (Peking)",
-        gambar: "./aset/marker/card_saron_penerus.webp",
+        gambar: "./aset/marker/card_saron_penerus.png",
         deskripsiSingkat: "Saron terkecil bersuara melengking dan riang.",
         asalUsul: "Saron Penerus, atau sering disebut Peking, adalah instrumen berbilah logam (perunggu atau besi) dengan ukuran paling kecil di antara keluarga saron lainnya. Alat ini merepresentasikan suara melengking nan ceria dalam ensambel musik tradisional.",
         fungsi: "Tugas utama Peking adalah merajut melodi dasar. Peking biasanya memainkan nada yang sama dengan Saron Barung, namun dipukul dua kali lipat lebih cepat. Hasilnya adalah suara yang rapat dan bergemerincing, menambah nuansa riang pada lagu.",
@@ -61,7 +61,7 @@ const dataInstrumen = [
     {
         id: "saron-barung",
         nama: "Saron Barung",
-        gambar: "./aset/marker/card_saron_barung.webp",
+        gambar: "./aset/marker/card_saron_barung.png",
         deskripsiSingkat: "Tulang punggung melodi utama berbilah perunggu.",
         asalUsul: "Saron Barung adalah instrumen bilah logam berukuran sedang. Saron merupakan salah satu instrumen melodi tertua yang menjadi tulang punggung dalam ansambel gamelan Jawa dan Bali, mengajarkan harmoni melalui bentuknya yang sederhana namun solid.",
         fungsi: "Saron Barung memegang peran krusial sebagai pembawa melodi inti (disebut balungan). Rangkaian nada yang dimainkan oleh Saron Barung adalah kerangka utama dari sebuah lagu yang nantinya akan dihias oleh alat musik lainnya.",
@@ -70,7 +70,7 @@ const dataInstrumen = [
     {
         id: "saron-demung",
         nama: "Saron Panembung (Demung)",
-        gambar: "./aset/marker/card_saron_panembung.webp",
+        gambar: "./aset/marker/card_saron_panembung.png",
         deskripsiSingkat: "Keluarga saron terbesar bersuara berat, agung, dan mantap.",
         asalUsul: "Saron Panembung, yang lebih populer disebut Demung, adalah anggota keluarga saron dengan ukuran bilah yang paling besar dan tebal. Istilah 'Panembung' memiliki arti sesuatu yang bersuara besar dan berwibawa.",
         fungsi: "Demung memainkan melodi dasar (balungan) persis seperti Saron Barung, namun menghasilkan nada satu oktaf lebih rendah. Suaranya yang berat dan mengayomi berfungsi untuk memberi kesan agung, tenang, dan mantap pada komposisi musik gamelan.",

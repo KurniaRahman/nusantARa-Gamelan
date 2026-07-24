@@ -76,7 +76,7 @@ function bukaModalManual() {
         
         btn.innerHTML = `
             <div class="w-full aspect-square bg-sky-50 overflow-hidden relative flex items-center justify-center p-2">
-                <img src="./aset/marker/card_${namaFileGambar}.webp" class="w-full h-full object-contain drop-shadow-md group-hover:scale-110 transition-transform duration-300" alt="${instrumen.nama}">
+                <img src="./aset/marker/card_${namaFileGambar}.png" class="w-full h-full object-contain drop-shadow-md group-hover:scale-110 transition-transform duration-300" alt="${instrumen.nama}">
                 <div class="absolute inset-0 bg-sky-500/0 group-hover:bg-sky-500/10 transition-colors"></div>
             </div>
             <div class="p-3 md:p-4 bg-white flex justify-center items-center flex-1 border-t-2 border-slate-50">
