@@ -6,12 +6,12 @@
     "tipe": "multi-laras",
     "laras": {
       "slendro": {
-        "imageSrc": "./aset/gambar/instrumen/gong_slendro.png",
+        "imageSrc": "./aset/gambar/instrumen/gong_slendro.webp",
         "audioPath": "./aset/audio/gong/",
         "notes": [
           {
             "id": "gong 1",
-            "file": "gong 1.WAV",
+            "file": "gong 1.mp3",
             "hitbox": {
               "xMin": 0.039,
               "xMax": 0.059,
@@ -21,7 +21,7 @@
           },
           {
             "id": "gong slendro 1",
-            "file": "gong slendro 1.WAV",
+            "file": "gong slendro 1.mp3",
             "hitbox": {
               "xMin": 0.301,
               "xMax": 0.37,
@@ -31,7 +31,7 @@
           },
           {
             "id": "gong 2",
-            "file": "gong 2.WAV",
+            "file": "gong 2.mp3",
             "hitbox": {
               "xMin": 0.053,
               "xMax": 0.073,
@@ -41,7 +41,7 @@
           },
           {
             "id": "gong slendro 2",
-            "file": "gong slendro 2.WAV",
+            "file": "gong slendro 2.mp3",
             "hitbox": {
               "xMin": 0.453,
               "xMax": 0.541,
@@ -51,7 +51,7 @@
           },
           {
             "id": "gong 3",
-            "file": "gong 3.WAV",
+            "file": "gong 3.mp3",
             "hitbox": {
               "xMin": 0.046,
               "xMax": 0.066,
@@ -61,7 +61,7 @@
           },
           {
             "id": "gong slendro 3",
-            "file": "gong slendro 3.WAV",
+            "file": "gong slendro 3.mp3",
             "hitbox": {
               "xMin": 0.101,
               "xMax": 0.163,
@@ -71,7 +71,7 @@
           },
           {
             "id": "gong 5",
-            "file": "gong 5.WAV",
+            "file": "gong 5.mp3",
             "hitbox": {
               "xMin": 0.032,
               "xMax": 0.052,
@@ -81,7 +81,7 @@
           },
           {
             "id": "gong slendro 5",
-            "file": "gong slendro 5.WAV",
+            "file": "gong slendro 5.mp3",
             "hitbox": {
               "xMin": 0.237,
               "xMax": 0.295,
@@ -91,7 +91,7 @@
           },
           {
             "id": "gong 6",
-            "file": "gong 6.WAV",
+            "file": "gong 6.mp3",
             "hitbox": {
               "xMin": 0.028,
               "xMax": 0.048,
@@ -101,7 +101,7 @@
           },
           {
             "id": "gong slendro 6",
-            "file": "gong slendro 6.WAV",
+            "file": "gong slendro 6.mp3",
             "hitbox": {
               "xMin": 0.371,
               "xMax": 0.422,
@@ -111,7 +111,7 @@
           },
           {
             "id": "gong 7",
-            "file": "gong 7.WAV",
+            "file": "gong 7.mp3",
             "hitbox": {
               "xMin": 0.029,
               "xMax": 0.049,
@@ -121,7 +121,7 @@
           },
           {
             "id": "gong (1)",
-            "file": "gong (1).WAV",
+            "file": "gong (1).mp3",
             "hitbox": {
               "xMin": 0.976,
               "xMax": 0.996,
@@ -131,7 +131,7 @@
           },
           {
             "id": "gong (2)",
-            "file": "gong (2).WAV",
+            "file": "gong (2).mp3",
             "hitbox": {
               "xMin": 0.98,
               "xMax": 1,
@@ -141,7 +141,7 @@
           },
           {
             "id": "gong (5)",
-            "file": "gong (5).WAV",
+            "file": "gong (5).mp3",
             "hitbox": {
               "xMin": 0.977,
               "xMax": 0.997,
@@ -151,7 +151,7 @@
           },
           {
             "id": "gong (6)",
-            "file": "gong (6).WAV",
+            "file": "gong (6).mp3",
             "hitbox": {
               "xMin": 0.957,
               "xMax": 0.977,
@@ -161,7 +161,7 @@
           },
           {
             "id": "gong (7)",
-            "file": "gong (7).WAV",
+            "file": "gong (7).mp3",
             "hitbox": {
               "xMin": 0.941,
               "xMax": 0.961,
@@ -171,7 +171,7 @@
           },
           {
             "id": "gong slendro (1)",
-            "file": "gong slendro (1).WAV",
+            "file": "gong slendro (1).mp3",
             "hitbox": {
               "xMin": 0.699,
               "xMax": 0.765,
@@ -181,7 +181,7 @@
           },
           {
             "id": "gong slendro (2)",
-            "file": "gong slendro (2).WAV",
+            "file": "gong slendro (2).mp3",
             "hitbox": {
               "xMin": 0.57,
               "xMax": 0.616,
@@ -191,7 +191,7 @@
           },
           {
             "id": "gong slendro (5)",
-            "file": "gong slendro (5).WAV",
+            "file": "gong slendro (5).mp3",
             "hitbox": {
               "xMin": 0.001,
               "xMax": 0.023,
@@ -201,7 +201,7 @@
           },
           {
             "id": "gong slendro (6)",
-            "file": "gong slendro (6).WAV",
+            "file": "gong slendro (6).mp3",
             "hitbox": {
               "xMin": 0.979,
               "xMax": 0.999,
@@ -212,12 +212,12 @@
         ]
       },
       "pelog": {
-        "imageSrc": "./aset/gambar/instrumen/gong_pelog.png",
+        "imageSrc": "./aset/gambar/instrumen/gong_pelog.webp",
         "audioPath": "./aset/audio/gong/",
         "notes": [
           {
             "id": "gong 1",
-            "file": "gong 1.WAV",
+            "file": "gong 1.mp3",
             "hitbox": {
               "xMin": 0.288,
               "xMax": 0.374,
@@ -227,7 +227,7 @@
           },
           {
             "id": "gong 2",
-            "file": "gong 2.WAV",
+            "file": "gong 2.mp3",
             "hitbox": {
               "xMin": 0.458,
               "xMax": 0.542,
@@ -237,7 +237,7 @@
           },
           {
             "id": "gong 3",
-            "file": "gong 3.WAV",
+            "file": "gong 3.mp3",
             "hitbox": {
               "xMin": 0.102,
               "xMax": 0.165,
@@ -247,7 +247,7 @@
           },
           {
             "id": "gong 5",
-            "file": "gong 5.WAV",
+            "file": "gong 5.mp3",
             "hitbox": {
               "xMin": 0.238,
               "xMax": 0.301,
@@ -257,7 +257,7 @@
           },
           {
             "id": "gong 6",
-            "file": "gong 6.WAV",
+            "file": "gong 6.mp3",
             "hitbox": {
               "xMin": 0.389,
               "xMax": 0.433,
@@ -267,7 +267,7 @@
           },
           {
             "id": "gong 7",
-            "file": "gong 7.WAV",
+            "file": "gong 7.mp3",
             "hitbox": {
               "xMin": 0.633,
               "xMax": 0.704,
@@ -277,7 +277,7 @@
           },
           {
             "id": "gong (1)",
-            "file": "gong (1).WAV",
+            "file": "gong (1).mp3",
             "hitbox": {
               "xMin": 0.707,
               "xMax": 0.766,
@@ -287,7 +287,7 @@
           },
           {
             "id": "gong (2)",
-            "file": "gong (2).WAV",
+            "file": "gong (2).mp3",
             "hitbox": {
               "xMin": 0.565,
               "xMax": 0.615,
@@ -297,7 +297,7 @@
           },
           {
             "id": "gong (5)",
-            "file": "gong (5).WAV",
+            "file": "gong (5).mp3",
             "hitbox": {
               "xMin": 0.977,
               "xMax": 1,
@@ -307,7 +307,7 @@
           },
           {
             "id": "gong (6)",
-            "file": "gong (6).WAV",
+            "file": "gong (6).mp3",
             "hitbox": {
               "xMin": 0.007,
               "xMax": 0.03,
@@ -317,7 +317,7 @@
           },
           {
             "id": "gong (7)",
-            "file": "gong (7).WAV",
+            "file": "gong (7).mp3",
             "hitbox": {
               "xMin": 0.836,
               "xMax": 0.902,
@@ -336,12 +336,12 @@
     "tipe": "multi-laras",
     "laras": {
       "slendro": {
-        "imageSrc": "./aset/gambar/instrumen/bonang_barung_slendro.png",
+        "imageSrc": "./aset/gambar/instrumen/bonang_barung_slendro.webp",
         "audioPath": "./aset/audio/bonang barung/",
         "notes": [
           {
             "id": "bonang barung slendro ..1",
-            "file": "bonang barung slendro ..1.WAV",
+            "file": "bonang barung slendro ..1.mp3",
             "hitbox": {
               "xMin": 0.69,
               "xMax": 0.746,
@@ -351,7 +351,7 @@
           },
           {
             "id": "bonang barung slendro ..2",
-            "file": "bonang barung slendro ..2.WAV",
+            "file": "bonang barung slendro ..2.mp3",
             "hitbox": {
               "xMin": 0.832,
               "xMax": 0.895,
@@ -361,7 +361,7 @@
           },
           {
             "id": "bonang barung slendro .1",
-            "file": "bonang barung slendro .1.WAV",
+            "file": "bonang barung slendro .1.mp3",
             "hitbox": {
               "xMin": 0.108,
               "xMax": 0.171,
@@ -371,7 +371,7 @@
           },
           {
             "id": "bonang barung slendro .2",
-            "file": "bonang barung slendro .2.WAV",
+            "file": "bonang barung slendro .2.mp3",
             "hitbox": {
               "xMin": 0.535,
               "xMax": 0.604,
@@ -381,7 +381,7 @@
           },
           {
             "id": "bonang barung slendro .3",
-            "file": "bonang barung slendro .3.WAV",
+            "file": "bonang barung slendro .3.mp3",
             "hitbox": {
               "xMin": 0.393,
               "xMax": 0.456,
@@ -391,7 +391,7 @@
           },
           {
             "id": "bonang barung slendro .5",
-            "file": "bonang barung slendro .5.WAV",
+            "file": "bonang barung slendro .5.mp3",
             "hitbox": {
               "xMin": 0.256,
               "xMax": 0.319,
@@ -401,7 +401,7 @@
           },
           {
             "id": "bonang barung slendro .6",
-            "file": "bonang barung slendro .6.WAV",
+            "file": "bonang barung slendro .6.mp3",
             "hitbox": {
               "xMin": 0.111,
               "xMax": 0.168,
@@ -411,7 +411,7 @@
           },
           {
             "id": "bonang barung slendro 1",
-            "file": "bonang barung slendro 1.WAV",
+            "file": "bonang barung slendro 1.mp3",
             "hitbox": {
               "xMin": 0.834,
               "xMax": 0.898,
@@ -421,7 +421,7 @@
           },
           {
             "id": "bonang barung slendro 2",
-            "file": "bonang barung slendro 2.WAV",
+            "file": "bonang barung slendro 2.mp3",
             "hitbox": {
               "xMin": 0.258,
               "xMax": 0.316,
@@ -431,7 +431,7 @@
           },
           {
             "id": "bonang barung slendro 3",
-            "file": "bonang barung slendro 3.WAV",
+            "file": "bonang barung slendro 3.mp3",
             "hitbox": {
               "xMin": 0.4,
               "xMax": 0.467,
@@ -441,7 +441,7 @@
           },
           {
             "id": "bonang barung slendro 5",
-            "file": "bonang barung slendro 5.WAV",
+            "file": "bonang barung slendro 5.mp3",
             "hitbox": {
               "xMin": 0.539,
               "xMax": 0.599,
@@ -451,7 +451,7 @@
           },
           {
             "id": "bonang barung slendro 6",
-            "file": "bonang barung slendro 6.WAV",
+            "file": "bonang barung slendro 6.mp3",
             "hitbox": {
               "xMin": 0.69,
               "xMax": 0.747,
@@ -462,12 +462,12 @@
         ]
       },
       "pelog": {
-        "imageSrc": "./aset/gambar/instrumen/bonang_barung_pelog.png",
+        "imageSrc": "./aset/gambar/instrumen/bonang_barung_pelog.webp",
         "audioPath": "./aset/audio/bonang barung/",
         "notes": [
           {
             "id": "bonang barung pelog ..1",
-            "file": "bonang barung pelog ..1.WAV",
+            "file": "bonang barung pelog ..1.mp3",
             "hitbox": {
               "xMin": 0.721,
               "xMax": 0.768,
@@ -477,7 +477,7 @@
           },
           {
             "id": "bonang barung pelog .1",
-            "file": "bonang barung pelog .1.WAV",
+            "file": "bonang barung pelog .1.mp3",
             "hitbox": {
               "xMin": 0.236,
               "xMax": 0.285,
@@ -487,7 +487,7 @@
           },
           {
             "id": "bonang barung pelog .2",
-            "file": "bonang barung pelog .2.WAV",
+            "file": "bonang barung pelog .2.mp3",
             "hitbox": {
               "xMin": 0.6,
               "xMax": 0.649,
@@ -497,7 +497,7 @@
           },
           {
             "id": "bonang barung pelog .3",
-            "file": "bonang barung pelog .3.WAV",
+            "file": "bonang barung pelog .3.mp3",
             "hitbox": {
               "xMin": 0.478,
               "xMax": 0.526,
@@ -507,7 +507,7 @@
           },
           {
             "id": "bonang barung pelog .4",
-            "file": "bonang barung pelog .4.WAV",
+            "file": "bonang barung pelog .4.mp3",
             "hitbox": {
               "xMin": 0.107,
               "xMax": 0.162,
@@ -517,7 +517,7 @@
           },
           {
             "id": "bonang barung pelog .5",
-            "file": "bonang barung pelog .5.WAV",
+            "file": "bonang barung pelog .5.mp3",
             "hitbox": {
               "xMin": 0.352,
               "xMax": 0.406,
@@ -527,7 +527,7 @@
           },
           {
             "id": "bonang barung pelog .6",
-            "file": "bonang barung pelog .6.WAV",
+            "file": "bonang barung pelog .6.mp3",
             "hitbox": {
               "xMin": 0.232,
               "xMax": 0.289,
@@ -537,7 +537,7 @@
           },
           {
             "id": "bonang barung pelog .7",
-            "file": "bonang barung pelog .7.WAV",
+            "file": "bonang barung pelog .7.mp3",
             "hitbox": {
               "xMin": 0.841,
               "xMax": 0.896,
@@ -547,7 +547,7 @@
           },
           {
             "id": "bonang barung pelog 2",
-            "file": "bonang barung pelog 2.WAV",
+            "file": "bonang barung pelog 2.mp3",
             "hitbox": {
               "xMin": 0.36,
               "xMax": 0.402,
@@ -557,7 +557,7 @@
           },
           {
             "id": "bonang barung pelog 3",
-            "file": "bonang barung pelog 3.WAV",
+            "file": "bonang barung pelog 3.mp3",
             "hitbox": {
               "xMin": 0.476,
               "xMax": 0.532,
@@ -567,7 +567,7 @@
           },
           {
             "id": "bonang barung pelog 4",
-            "file": "bonang barung pelog 4.WAV",
+            "file": "bonang barung pelog 4.mp3",
             "hitbox": {
               "xMin": 0.839,
               "xMax": 0.891,
@@ -577,7 +577,7 @@
           },
           {
             "id": "bonang barung pelog 5",
-            "file": "bonang barung pelog 5.WAV",
+            "file": "bonang barung pelog 5.mp3",
             "hitbox": {
               "xMin": 0.601,
               "xMax": 0.654,
@@ -587,7 +587,7 @@
           },
           {
             "id": "bonang barung pelog 6",
-            "file": "bonang barung pelog 6.WAV",
+            "file": "bonang barung pelog 6.mp3",
             "hitbox": {
               "xMin": 0.72,
               "xMax": 0.765,
@@ -597,7 +597,7 @@
           },
           {
             "id": "bonang barung pelog 7",
-            "file": "bonang barung pelog 7.WAV",
+            "file": "bonang barung pelog 7.mp3",
             "hitbox": {
               "xMin": 0.106,
               "xMax": 0.162,
@@ -616,12 +616,12 @@
     "tipe": "multi-laras",
     "laras": {
       "slendro": {
-        "imageSrc": "./aset/gambar/instrumen/bonang_penerus_slendro.png",
+        "imageSrc": "./aset/gambar/instrumen/bonang_penerus_slendro.webp",
         "audioPath": "./aset/audio/bonang penerus/",
         "notes": [
           {
             "id": "bonang penerus slendro ..1",
-            "file": "bonang penerus slendro ..1.WAV",
+            "file": "bonang penerus slendro ..1.mp3",
             "hitbox": {
               "xMin": 0.691,
               "xMax": 0.749,
@@ -631,7 +631,7 @@
           },
           {
             "id": "bonang penerus slendro ..2",
-            "file": "bonang penerus slendro ..2.WAV",
+            "file": "bonang penerus slendro ..2.mp3",
             "hitbox": {
               "xMin": 0.831,
               "xMax": 0.897,
@@ -641,7 +641,7 @@
           },
           {
             "id": "bonang penerus slendro .1",
-            "file": "bonang penerus slendro .1.WAV",
+            "file": "bonang penerus slendro .1.mp3",
             "hitbox": {
               "xMin": 0.102,
               "xMax": 0.172,
@@ -651,7 +651,7 @@
           },
           {
             "id": "bonang penerus slendro .2",
-            "file": "bonang penerus slendro .2.WAV",
+            "file": "bonang penerus slendro .2.mp3",
             "hitbox": {
               "xMin": 0.54,
               "xMax": 0.601,
@@ -661,7 +661,7 @@
           },
           {
             "id": "bonang penerus slendro .3",
-            "file": "bonang penerus slendro .3.WAV",
+            "file": "bonang penerus slendro .3.mp3",
             "hitbox": {
               "xMin": 0.398,
               "xMax": 0.458,
@@ -671,7 +671,7 @@
           },
           {
             "id": "bonang penerus slendro .5",
-            "file": "bonang penerus slendro .5.WAV",
+            "file": "bonang penerus slendro .5.mp3",
             "hitbox": {
               "xMin": 0.257,
               "xMax": 0.317,
@@ -681,7 +681,7 @@
           },
           {
             "id": "bonang penerus slendro .6",
-            "file": "bonang penerus slendro .6.WAV",
+            "file": "bonang penerus slendro .6.mp3",
             "hitbox": {
               "xMin": 0.107,
               "xMax": 0.17,
@@ -691,7 +691,7 @@
           },
           {
             "id": "bonang penerus slendro 1",
-            "file": "bonang penerus slendro 1.WAV",
+            "file": "bonang penerus slendro 1.mp3",
             "hitbox": {
               "xMin": 0.83,
               "xMax": 0.894,
@@ -701,7 +701,7 @@
           },
           {
             "id": "bonang penerus slendro 2",
-            "file": "bonang penerus slendro 2.WAV",
+            "file": "bonang penerus slendro 2.mp3",
             "hitbox": {
               "xMin": 0.244,
               "xMax": 0.313,
@@ -711,7 +711,7 @@
           },
           {
             "id": "bonang penerus slendro 3",
-            "file": "bonang penerus slendro 3.WAV",
+            "file": "bonang penerus slendro 3.mp3",
             "hitbox": {
               "xMin": 0.401,
               "xMax": 0.46,
@@ -721,7 +721,7 @@
           },
           {
             "id": "bonang penerus slendro 5",
-            "file": "bonang penerus slendro 5.WAV",
+            "file": "bonang penerus slendro 5.mp3",
             "hitbox": {
               "xMin": 0.538,
               "xMax": 0.606,
@@ -731,7 +731,7 @@
           },
           {
             "id": "bonang penerus slendro 6",
-            "file": "bonang penerus slendro 6.WAV",
+            "file": "bonang penerus slendro 6.mp3",
             "hitbox": {
               "xMin": 0.684,
               "xMax": 0.749,
@@ -742,12 +742,12 @@
         ]
       },
       "pelog": {
-        "imageSrc": "./aset/gambar/instrumen/bonang_penerus_pelog.png",
+        "imageSrc": "./aset/gambar/instrumen/bonang_penerus_pelog.webp",
         "audioPath": "./aset/audio/bonang penerus/",
         "notes": [
           {
             "id": "bonang penerus pelog ..1",
-            "file": "bonang penerus pelog ..1.WAV",
+            "file": "bonang penerus pelog ..1.mp3",
             "hitbox": {
               "xMin": 0.71,
               "xMax": 0.771,
@@ -757,7 +757,7 @@
           },
           {
             "id": "bonang penerus pelog .1",
-            "file": "bonang penerus pelog .1.WAV",
+            "file": "bonang penerus pelog .1.mp3",
             "hitbox": {
               "xMin": 0.23,
               "xMax": 0.291,
@@ -767,7 +767,7 @@
           },
           {
             "id": "bonang penerus pelog .2",
-            "file": "bonang penerus pelog .2.WAV",
+            "file": "bonang penerus pelog .2.mp3",
             "hitbox": {
               "xMin": 0.592,
               "xMax": 0.652,
@@ -777,7 +777,7 @@
           },
           {
             "id": "bonang penerus pelog .3",
-            "file": "bonang penerus pelog .3.WAV",
+            "file": "bonang penerus pelog .3.mp3",
             "hitbox": {
               "xMin": 0.473,
               "xMax": 0.531,
@@ -787,7 +787,7 @@
           },
           {
             "id": "bonang penerus pelog .4",
-            "file": "bonang penerus pelog .4.WAV",
+            "file": "bonang penerus pelog .4.mp3",
             "hitbox": {
               "xMin": 0.101,
               "xMax": 0.167,
@@ -797,7 +797,7 @@
           },
           {
             "id": "bonang penerus pelog .5",
-            "file": "bonang penerus pelog .5.WAV",
+            "file": "bonang penerus pelog .5.mp3",
             "hitbox": {
               "xMin": 0.356,
               "xMax": 0.41,
@@ -807,7 +807,7 @@
           },
           {
             "id": "bonang penerus pelog .6",
-            "file": "bonang penerus pelog .6.WAV",
+            "file": "bonang penerus pelog .6.mp3",
             "hitbox": {
               "xMin": 0.228,
               "xMax": 0.289,
@@ -817,7 +817,7 @@
           },
           {
             "id": "bonang penerus pelog .7",
-            "file": "bonang penerus pelog .7.WAV",
+            "file": "bonang penerus pelog .7.mp3",
             "hitbox": {
               "xMin": 0.84,
               "xMax": 0.905,
@@ -827,7 +827,7 @@
           },
           {
             "id": "bonang penerus pelog 2",
-            "file": "bonang penerus pelog 2.WAV",
+            "file": "bonang penerus pelog 2.mp3",
             "hitbox": {
               "xMin": 0.353,
               "xMax": 0.413,
@@ -837,7 +837,7 @@
           },
           {
             "id": "bonang penerus pelog 3",
-            "file": "bonang penerus pelog 3.WAV",
+            "file": "bonang penerus pelog 3.mp3",
             "hitbox": {
               "xMin": 0.481,
               "xMax": 0.534,
@@ -847,7 +847,7 @@
           },
           {
             "id": "bonang penerus pelog 4",
-            "file": "bonang penerus pelog 4.WAV",
+            "file": "bonang penerus pelog 4.mp3",
             "hitbox": {
               "xMin": 0.837,
               "xMax": 0.895,
@@ -857,7 +857,7 @@
           },
           {
             "id": "bonang penerus pelog 5",
-            "file": "bonang penerus pelog 5.WAV",
+            "file": "bonang penerus pelog 5.mp3",
             "hitbox": {
               "xMin": 0.596,
               "xMax": 0.649,
@@ -867,7 +867,7 @@
           },
           {
             "id": "bonang penerus pelog 6",
-            "file": "bonang penerus pelog 6.WAV",
+            "file": "bonang penerus pelog 6.mp3",
             "hitbox": {
               "xMin": 0.715,
               "xMax": 0.771,
@@ -877,7 +877,7 @@
           },
           {
             "id": "bonang penerus pelog 7",
-            "file": "bonang penerus pelog 7.WAV",
+            "file": "bonang penerus pelog 7.mp3",
             "hitbox": {
               "xMin": 0.107,
               "xMax": 0.169,
@@ -896,78 +896,118 @@
     "tipe": "single",
     "laras": {
       "default": {
-        "imageSrc": "./aset/gambar/instrumen/kendang.png",
+        "imageSrc": "./aset/gambar/instrumen/kendang.webp",
         "audioPath": "./aset/audio/kendang/",
         "notes": [
           {
             "id": "kendang 1",
-            "file": "kendang 1.WAV",
+            "file": "kendang 1.mp3",
             "hitbox": {
-              "xMin": 0.1,
-              "xMax": 0.233,
-              "yMin": 0.45,
-              "yMax": 0.55
+              "xMin": 0.115,
+              "xMax": 0.26,
+              "yMin": 0.41,
+              "yMax": 0.566
             }
           },
           {
             "id": "kendang 2",
-            "file": "kendang 2.WAV",
+            "file": "kendang 2.mp3",
             "hitbox": {
-              "xMin": 0.76,
+              "xMin": 0.746,
               "xMax": 0.894,
-              "yMin": 0.517,
-              "yMax": 0.618
+              "yMin": 0.477,
+              "yMax": 0.647
             }
           },
           {
             "id": "kendang 3",
-            "file": "kendang 3.WAV",
+            "file": "kendang 3.mp3",
             "hitbox": {
-              "xMin": 0.746,
-              "xMax": 0.872,
-              "yMin": 0.255,
-              "yMax": 0.368
+              "xMin": 0.56,
+              "xMax": 0.681,
+              "yMin": 0.56,
+              "yMax": 0.714
             }
           },
           {
             "id": "kendang 4",
-            "file": "kendang 4.WAV",
-            "hitbox": { "xMin": 0.4, "xMax": 0.5, "yMin": 0.1, "yMax": 0.2 }
+            "file": "kendang 4.mp3",
+            "hitbox": {
+              "xMin": 0.3,
+              "xMax": 0.417,
+              "yMin": 0.369,
+              "yMax": 0.485
+            }
           },
           {
             "id": "kendang 5",
-            "file": "kendang 5.WAV",
-            "hitbox": { "xMin": 0.5, "xMax": 0.6, "yMin": 0.1, "yMax": 0.2 }
+            "file": "kendang 5.mp3",
+            "hitbox": {
+              "xMin": 0.515,
+              "xMax": 0.619,
+              "yMin": 0.769,
+              "yMax": 0.882
+            }
           },
           {
             "id": "kendang 6",
-            "file": "kendang 6.WAV",
-            "hitbox": { "xMin": 0.6, "xMax": 0.7, "yMin": 0.1, "yMax": 0.2 }
+            "file": "kendang 6.mp3",
+            "hitbox": {
+              "xMin": 0.715,
+              "xMax": 0.815,
+              "yMin": 0.724,
+              "yMax": 0.824
+            }
           },
           {
             "id": "kendang 7",
-            "file": "kendang 7.WAV",
-            "hitbox": { "xMin": 0.4, "xMax": 0.5, "yMin": 0.3, "yMax": 0.4 }
+            "file": "kendang 7.mp3",
+            "hitbox": {
+              "xMin": 0.14,
+              "xMax": 0.256,
+              "yMin": 0.663,
+              "yMax": 0.799
+            }
           },
           {
             "id": "kendang 8",
-            "file": "kendang 8.WAV",
-            "hitbox": { "xMin": 0.5, "xMax": 0.6, "yMin": 0.3, "yMax": 0.4 }
+            "file": "kendang 8.mp3",
+            "hitbox": {
+              "xMin": 0.383,
+              "xMax": 0.484,
+              "yMin": 0.769,
+              "yMax": 0.869
+            }
           },
           {
             "id": "kendang 9",
-            "file": "kendang 9.WAV",
-            "hitbox": { "xMin": 0.6, "xMax": 0.7, "yMin": 0.3, "yMax": 0.4 }
+            "file": "kendang 9.mp3",
+            "hitbox": {
+              "xMin": 0.611,
+              "xMax": 0.714,
+              "yMin": 0.366,
+              "yMax": 0.481
+            }
           },
           {
             "id": "kendang 10",
-            "file": "kendang 10.WAV",
-            "hitbox": { "xMin": 0.4, "xMax": 0.5, "yMin": 0.5, "yMax": 0.6 }
+            "file": "kendang 10.mp3",
+            "hitbox": {
+              "xMin": 0.295,
+              "xMax": 0.425,
+              "yMin": 0.558,
+              "yMax": 0.705
+            }
           },
           {
             "id": "kendang chees",
-            "file": "kendang chees.WAV",
-            "hitbox": { "xMin": 0.5, "xMax": 0.6, "yMin": 0.5, "yMax": 0.6 }
+            "file": "kendang chees.mp3",
+            "hitbox": {
+              "xMin": 0.735,
+              "xMax": 0.883,
+              "yMin": 0.167,
+              "yMax": 0.36
+            }
           }
         ]
       }
@@ -980,12 +1020,12 @@
     "tipe": "multi-laras",
     "laras": {
       "slendro": {
-        "imageSrc": "./aset/gambar/instrumen/kenong_slendro.png",
+        "imageSrc": "./aset/gambar/instrumen/kenong_slendro.webp",
         "audioPath": "./aset/audio/kenong/",
         "notes": [
           {
             "id": "Kenong slendro -",
-            "file": "Kenong slendro -.WAV",
+            "file": "Kenong slendro -.mp3",
             "hitbox": {
               "xMin": 0.598,
               "xMax": 0.656,
@@ -995,7 +1035,7 @@
           },
           {
             "id": "Kenong slendro 1",
-            "file": "Kenong slendro 1.WAV",
+            "file": "Kenong slendro 1.mp3",
             "hitbox": {
               "xMin": 0.762,
               "xMax": 0.852,
@@ -1005,7 +1045,7 @@
           },
           {
             "id": "Kenong slendro 2",
-            "file": "Kenong slendro 2.WAV",
+            "file": "Kenong slendro 2.mp3",
             "hitbox": {
               "xMin": 0.156,
               "xMax": 0.26,
@@ -1015,7 +1055,7 @@
           },
           {
             "id": "Kenong slendro 3",
-            "file": "Kenong slendro 3.WAV",
+            "file": "Kenong slendro 3.mp3",
             "hitbox": {
               "xMin": 0.16,
               "xMax": 0.259,
@@ -1025,7 +1065,7 @@
           },
           {
             "id": "Kenong slendro 5",
-            "file": "Kenong slendro 5.WAV",
+            "file": "Kenong slendro 5.mp3",
             "hitbox": {
               "xMin": 0.366,
               "xMax": 0.465,
@@ -1035,7 +1075,7 @@
           },
           {
             "id": "Kenong slendro 6",
-            "file": "Kenong slendro 6.WAV",
+            "file": "Kenong slendro 6.mp3",
             "hitbox": {
               "xMin": 0.557,
               "xMax": 0.646,
@@ -1045,7 +1085,7 @@
           },
           {
             "id": "Kenong slendro +",
-            "file": "Kenong slendro +.WAV",
+            "file": "Kenong slendro +.mp3",
             "hitbox": {
               "xMin": 0.481,
               "xMax": 0.55,
@@ -1055,7 +1095,7 @@
           },
           {
             "id": "Kenong slendro 2 kiri",
-            "file": "Kenong slendro 2 kiri.WAV",
+            "file": "Kenong slendro 2 kiri.mp3",
             "hitbox": {
               "xMin": 0.758,
               "xMax": 0.848,
@@ -1066,12 +1106,12 @@
         ]
       },
       "pelog": {
-        "imageSrc": "./aset/gambar/instrumen/kenong_pelog.png",
+        "imageSrc": "./aset/gambar/instrumen/kenong_pelog.webp",
         "audioPath": "./aset/audio/kenong/",
         "notes": [
           {
             "id": "Kenong Pelog -",
-            "file": "Kenong Pelog -.WAV",
+            "file": "Kenong Pelog -.mp3",
             "hitbox": {
               "xMin": 0.594,
               "xMax": 0.655,
@@ -1081,7 +1121,7 @@
           },
           {
             "id": "Kenong Pelog 1",
-            "file": "Kenong Pelog 1.WAV",
+            "file": "Kenong Pelog 1.mp3",
             "hitbox": {
               "xMin": 0.759,
               "xMax": 0.854,
@@ -1091,7 +1131,7 @@
           },
           {
             "id": "Kenong Pelog 2",
-            "file": "Kenong Pelog 2.WAV",
+            "file": "Kenong Pelog 2.mp3",
             "hitbox": {
               "xMin": 0.169,
               "xMax": 0.252,
@@ -1101,7 +1141,7 @@
           },
           {
             "id": "Kenong Pelog 3",
-            "file": "Kenong Pelog 3.WAV",
+            "file": "Kenong Pelog 3.mp3",
             "hitbox": {
               "xMin": 0.158,
               "xMax": 0.257,
@@ -1111,7 +1151,7 @@
           },
           {
             "id": "Kenong Pelog 5",
-            "file": "Kenong Pelog 5.WAV",
+            "file": "Kenong Pelog 5.mp3",
             "hitbox": {
               "xMin": 0.371,
               "xMax": 0.467,
@@ -1121,7 +1161,7 @@
           },
           {
             "id": "Kenong Pelog 6",
-            "file": "Kenong Pelog 6.WAV",
+            "file": "Kenong Pelog 6.mp3",
             "hitbox": {
               "xMin": 0.552,
               "xMax": 0.646,
@@ -1131,7 +1171,7 @@
           },
           {
             "id": "Kenong Pelog 7",
-            "file": "Kenong Pelog 7.WAV",
+            "file": "Kenong Pelog 7.mp3",
             "hitbox": {
               "xMin": 0.754,
               "xMax": 0.861,
@@ -1141,7 +1181,7 @@
           },
           {
             "id": "Kenong Pelog +",
-            "file": "Kenong Pelog +.WAV",
+            "file": "Kenong Pelog +.mp3",
             "hitbox": {
               "xMin": 0.488,
               "xMax": 0.548,
@@ -1160,12 +1200,12 @@
     "tipe": "multi-laras",
     "laras": {
       "slendro": {
-        "imageSrc": "./aset/gambar/instrumen/saron_penerus_slendro.png",
+        "imageSrc": "./aset/gambar/instrumen/saron_penerus_slendro.webp",
         "audioPath": "./aset/audio/saron penerus/",
         "notes": [
           {
             "id": "Saron penerus slendro .1",
-            "file": "Saron penerus slendro .1.WAV",
+            "file": "Saron penerus slendro .1.mp3",
             "hitbox": {
               "xMin": 0.752,
               "xMax": 0.793,
@@ -1175,7 +1215,7 @@
           },
           {
             "id": "Saron penerus slendro .6",
-            "file": "Saron penerus slendro .6.WAV",
+            "file": "Saron penerus slendro .6.mp3",
             "hitbox": {
               "xMin": 0.206,
               "xMax": 0.27,
@@ -1185,7 +1225,7 @@
           },
           {
             "id": "Saron penerus slendro 1",
-            "file": "Saron penerus slendro 1.WAV",
+            "file": "Saron penerus slendro 1.mp3",
             "hitbox": {
               "xMin": 0.302,
               "xMax": 0.359,
@@ -1195,7 +1235,7 @@
           },
           {
             "id": "Saron penerus slendro 2",
-            "file": "Saron penerus slendro 2.WAV",
+            "file": "Saron penerus slendro 2.mp3",
             "hitbox": {
               "xMin": 0.39,
               "xMax": 0.449,
@@ -1205,7 +1245,7 @@
           },
           {
             "id": "Saron penerus slendro 3",
-            "file": "Saron penerus slendro 3.WAV",
+            "file": "Saron penerus slendro 3.mp3",
             "hitbox": {
               "xMin": 0.481,
               "xMax": 0.534,
@@ -1215,7 +1255,7 @@
           },
           {
             "id": "Saron penerus slendro 5",
-            "file": "Saron penerus slendro 5.WAV",
+            "file": "Saron penerus slendro 5.mp3",
             "hitbox": {
               "xMin": 0.569,
               "xMax": 0.624,
@@ -1225,7 +1265,7 @@
           },
           {
             "id": "Saron penerus slendro 6",
-            "file": "Saron penerus slendro 6.WAV",
+            "file": "Saron penerus slendro 6.mp3",
             "hitbox": {
               "xMin": 0.657,
               "xMax": 0.711,
@@ -1236,12 +1276,12 @@
         ]
       },
       "pelog": {
-        "imageSrc": "./aset/gambar/instrumen/saron_penerus_pelog.png",
+        "imageSrc": "./aset/gambar/instrumen/saron_penerus_pelog.webp",
         "audioPath": "./aset/audio/saron penerus/",
         "notes": [
           {
             "id": "Saron penerus pelog 1",
-            "file": "Saron penerus pelog 1.WAV",
+            "file": "Saron penerus pelog 1.mp3",
             "hitbox": {
               "xMin": 0.207,
               "xMax": 0.266,
@@ -1251,7 +1291,7 @@
           },
           {
             "id": "Saron penerus pelog 2",
-            "file": "Saron penerus pelog 2.WAV",
+            "file": "Saron penerus pelog 2.mp3",
             "hitbox": {
               "xMin": 0.303,
               "xMax": 0.352,
@@ -1261,7 +1301,7 @@
           },
           {
             "id": "Saron penerus pelog 3",
-            "file": "Saron penerus pelog 3.WAV",
+            "file": "Saron penerus pelog 3.mp3",
             "hitbox": {
               "xMin": 0.394,
               "xMax": 0.449,
@@ -1271,7 +1311,7 @@
           },
           {
             "id": "Saron penerus pelog 4",
-            "file": "Saron penerus pelog 4.WAV",
+            "file": "Saron penerus pelog 4.mp3",
             "hitbox": {
               "xMin": 0.479,
               "xMax": 0.535,
@@ -1281,7 +1321,7 @@
           },
           {
             "id": "Saron penerus pelog 5",
-            "file": "Saron penerus pelog 5.WAV",
+            "file": "Saron penerus pelog 5.mp3",
             "hitbox": {
               "xMin": 0.57,
               "xMax": 0.624,
@@ -1291,7 +1331,7 @@
           },
           {
             "id": "Saron penerus pelog 6",
-            "file": "Saron penerus pelog 6.WAV",
+            "file": "Saron penerus pelog 6.mp3",
             "hitbox": {
               "xMin": 0.665,
               "xMax": 0.711,
@@ -1301,7 +1341,7 @@
           },
           {
             "id": "Saron penerus pelog 7",
-            "file": "Saron penerus pelog 7.WAV",
+            "file": "Saron penerus pelog 7.mp3",
             "hitbox": {
               "xMin": 0.75,
               "xMax": 0.799,
@@ -1320,12 +1360,12 @@
     "tipe": "multi-laras",
     "laras": {
       "slendro": {
-        "imageSrc": "./aset/gambar/instrumen/saron_barong_slendro.png",
+        "imageSrc": "./aset/gambar/instrumen/saron_barong_slendro.webp",
         "audioPath": "./aset/audio/saron barung/",
         "notes": [
           {
             "id": "Saron barung slendro .1",
-            "file": "Saron barung slendro .1.WAV",
+            "file": "Saron barung slendro .1.mp3",
             "hitbox": {
               "xMin": 0.654,
               "xMax": 0.704,
@@ -1335,7 +1375,7 @@
           },
           {
             "id": "Saron barung slendro .2",
-            "file": "Saron barung slendro .2.WAV",
+            "file": "Saron barung slendro .2.mp3",
             "hitbox": {
               "xMin": 0.732,
               "xMax": 0.777,
@@ -1345,7 +1385,7 @@
           },
           {
             "id": "Saron barung slendro .3",
-            "file": "Saron barung slendro .3.WAV",
+            "file": "Saron barung slendro .3.mp3",
             "hitbox": {
               "xMin": 0.806,
               "xMax": 0.849,
@@ -1355,7 +1395,7 @@
           },
           {
             "id": "Saron barung slendro .6",
-            "file": "Saron barung slendro .6.WAV",
+            "file": "Saron barung slendro .6.mp3",
             "hitbox": {
               "xMin": 0.165,
               "xMax": 0.222,
@@ -1365,7 +1405,7 @@
           },
           {
             "id": "Saron barung slendro 1",
-            "file": "Saron barung slendro 1.WAV",
+            "file": "Saron barung slendro 1.mp3",
             "hitbox": {
               "xMin": 0.25,
               "xMax": 0.305,
@@ -1375,7 +1415,7 @@
           },
           {
             "id": "Saron barung slendro 2",
-            "file": "Saron barung slendro 2.WAV",
+            "file": "Saron barung slendro 2.mp3",
             "hitbox": {
               "xMin": 0.335,
               "xMax": 0.388,
@@ -1385,7 +1425,7 @@
           },
           {
             "id": "Saron barung slendro 3",
-            "file": "Saron barung slendro 3.WAV",
+            "file": "Saron barung slendro 3.mp3",
             "hitbox": {
               "xMin": 0.417,
               "xMax": 0.468,
@@ -1395,7 +1435,7 @@
           },
           {
             "id": "Saron barung slendro 5",
-            "file": "Saron barung slendro 5.WAV",
+            "file": "Saron barung slendro 5.mp3",
             "hitbox": {
               "xMin": 0.498,
               "xMax": 0.55,
@@ -1405,7 +1445,7 @@
           },
           {
             "id": "Saron barung slendro 6",
-            "file": "Saron barung slendro 6.WAV",
+            "file": "Saron barung slendro 6.mp3",
             "hitbox": {
               "xMin": 0.578,
               "xMax": 0.628,
@@ -1416,12 +1456,12 @@
         ]
       },
       "pelog": {
-        "imageSrc": "./aset/gambar/instrumen/saron_barong_pelog.png",
+        "imageSrc": "./aset/gambar/instrumen/saron_barong_pelog.webp",
         "audioPath": "./aset/audio/saron barung/",
         "notes": [
           {
             "id": "Saron barung pelog .2",
-            "file": "Saron barung pelog .2.WAV",
+            "file": "Saron barung pelog .2.mp3",
             "hitbox": {
               "xMin": 0.728,
               "xMax": 0.78,
@@ -1431,7 +1471,7 @@
           },
           {
             "id": "Saron barung pelog .3",
-            "file": "Saron barung pelog .3.WAV",
+            "file": "Saron barung pelog .3.mp3",
             "hitbox": {
               "xMin": 0.802,
               "xMax": 0.856,
@@ -1441,7 +1481,7 @@
           },
           {
             "id": "Saron barung pelog 1",
-            "file": "Saron barung pelog 1.WAV",
+            "file": "Saron barung pelog 1.mp3",
             "hitbox": {
               "xMin": 0.162,
               "xMax": 0.226,
@@ -1451,7 +1491,7 @@
           },
           {
             "id": "Saron barung pelog 2",
-            "file": "Saron barung pelog 2.WAV",
+            "file": "Saron barung pelog 2.mp3",
             "hitbox": {
               "xMin": 0.254,
               "xMax": 0.305,
@@ -1461,7 +1501,7 @@
           },
           {
             "id": "Saron barung pelog 3",
-            "file": "Saron barung pelog 3.WAV",
+            "file": "Saron barung pelog 3.mp3",
             "hitbox": {
               "xMin": 0.332,
               "xMax": 0.384,
@@ -1471,7 +1511,7 @@
           },
           {
             "id": "Saron barung pelog 4",
-            "file": "Saron barung pelog 4.WAV",
+            "file": "Saron barung pelog 4.mp3",
             "hitbox": {
               "xMin": 0.417,
               "xMax": 0.47,
@@ -1481,7 +1521,7 @@
           },
           {
             "id": "Saron barung pelog 5",
-            "file": "Saron barung pelog 5.WAV",
+            "file": "Saron barung pelog 5.mp3",
             "hitbox": {
               "xMin": 0.497,
               "xMax": 0.55,
@@ -1491,7 +1531,7 @@
           },
           {
             "id": "Saron barung pelog 6",
-            "file": "Saron barung pelog 6.WAV",
+            "file": "Saron barung pelog 6.mp3",
             "hitbox": {
               "xMin": 0.578,
               "xMax": 0.625,
@@ -1501,7 +1541,7 @@
           },
           {
             "id": "Saron barung pelog 7",
-            "file": "Saron barung pelog 7.WAV",
+            "file": "Saron barung pelog 7.mp3",
             "hitbox": {
               "xMin": 0.652,
               "xMax": 0.703,
@@ -1520,12 +1560,12 @@
     "tipe": "multi-laras",
     "laras": {
       "slendro": {
-        "imageSrc": "./aset/gambar/instrumen/saron_panembung_slendro.png",
+        "imageSrc": "./aset/gambar/instrumen/saron_panembung_slendro.webp",
         "audioPath": "./aset/audio/saron panembung/",
         "notes": [
           {
             "id": "Saron panembung slendro .1",
-            "file": "Saron panembung slendro .1.WAV",
+            "file": "Saron panembung slendro .1.mp3",
             "hitbox": {
               "xMin": 0.751,
               "xMax": 0.797,
@@ -1535,7 +1575,7 @@
           },
           {
             "id": "Saron panembung slendro .6",
-            "file": "Saron panembung slendro .6.WAV",
+            "file": "Saron panembung slendro .6.mp3",
             "hitbox": {
               "xMin": 0.21,
               "xMax": 0.269,
@@ -1545,7 +1585,7 @@
           },
           {
             "id": "Saron panembung slendro 1",
-            "file": "Saron panembung slendro 1.WAV",
+            "file": "Saron panembung slendro 1.mp3",
             "hitbox": {
               "xMin": 0.301,
               "xMax": 0.36,
@@ -1555,7 +1595,7 @@
           },
           {
             "id": "Saron panembung slendro 2",
-            "file": "Saron panembung slendro 2.WAV",
+            "file": "Saron panembung slendro 2.mp3",
             "hitbox": {
               "xMin": 0.392,
               "xMax": 0.444,
@@ -1565,7 +1605,7 @@
           },
           {
             "id": "Saron panembung slendro 3",
-            "file": "Saron panembung slendro 3.WAV",
+            "file": "Saron panembung slendro 3.mp3",
             "hitbox": {
               "xMin": 0.479,
               "xMax": 0.533,
@@ -1575,7 +1615,7 @@
           },
           {
             "id": "Saron panembung slendro 5",
-            "file": "Saron panembung slendro 5.WAV",
+            "file": "Saron panembung slendro 5.mp3",
             "hitbox": {
               "xMin": 0.571,
               "xMax": 0.623,
@@ -1585,7 +1625,7 @@
           },
           {
             "id": "Saron panembung slendro 6",
-            "file": "Saron panembung slendro 6.WAV",
+            "file": "Saron panembung slendro 6.mp3",
             "hitbox": {
               "xMin": 0.662,
               "xMax": 0.713,
@@ -1596,12 +1636,12 @@
         ]
       },
       "pelog": {
-        "imageSrc": "./aset/gambar/instrumen/saron_panembung_pelog.png",
+        "imageSrc": "./aset/gambar/instrumen/saron_panembung_pelog.webp",
         "audioPath": "./aset/audio/saron panembung/",
         "notes": [
           {
             "id": "Saron panembung pelog 1",
-            "file": "Saron panembung pelog 1.WAV",
+            "file": "Saron panembung pelog 1.mp3",
             "hitbox": {
               "xMin": 0.208,
               "xMax": 0.263,
@@ -1611,7 +1651,7 @@
           },
           {
             "id": "Saron panembung pelog 2",
-            "file": "Saron panembung pelog 2.WAV",
+            "file": "Saron panembung pelog 2.mp3",
             "hitbox": {
               "xMin": 0.299,
               "xMax": 0.356,
@@ -1621,7 +1661,7 @@
           },
           {
             "id": "Saron panembung pelog 3",
-            "file": "Saron panembung pelog 3.WAV",
+            "file": "Saron panembung pelog 3.mp3",
             "hitbox": {
               "xMin": 0.389,
               "xMax": 0.446,
@@ -1631,7 +1671,7 @@
           },
           {
             "id": "Saron panembung pelog 4",
-            "file": "Saron panembung pelog 4.WAV",
+            "file": "Saron panembung pelog 4.mp3",
             "hitbox": {
               "xMin": 0.479,
               "xMax": 0.537,
@@ -1641,7 +1681,7 @@
           },
           {
             "id": "Saron panembung pelog 5",
-            "file": "Saron panembung pelog 5.WAV",
+            "file": "Saron panembung pelog 5.mp3",
             "hitbox": {
               "xMin": 0.567,
               "xMax": 0.626,
@@ -1651,7 +1691,7 @@
           },
           {
             "id": "Saron panembung pelog 6",
-            "file": "Saron panembung pelog 6.WAV",
+            "file": "Saron panembung pelog 6.mp3",
             "hitbox": {
               "xMin": 0.655,
               "xMax": 0.713,
@@ -1661,7 +1701,7 @@
           },
           {
             "id": "Saron panembung pelog 7",
-            "file": "Saron panembung pelog 7.WAV",
+            "file": "Saron panembung pelog 7.mp3",
             "hitbox": {
               "xMin": 0.747,
               "xMax": 0.798,
