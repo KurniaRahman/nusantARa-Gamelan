@@ -77,7 +77,13 @@ function tampilkanWorkspace() {
     pesanKosong.classList.add('hidden');
     
     const configLaras = instrumenAktif.laras[larasAktif];
-    gambarInstrumen.src = configLaras.imageSrc;
+    
+    // Sesuaikan path gambar karena mapper dipanggil dari dalam folder tools/
+    let pathGambar = configLaras.imageSrc;
+    if (pathGambar.startsWith('./')) {
+        pathGambar = '.' + pathGambar; // Berubah dari ./aset ke ../aset
+    }
+    gambarInstrumen.src = pathGambar;
     
     // Render hitbox ketika gambar selesai dimuat (agar tahu ukurannya)
     gambarInstrumen.onload = () => {

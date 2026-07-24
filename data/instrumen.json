@@ -897,11 +897,11 @@
     "laras": {
       "default": {
         "imageSrc": "./aset/gambar/instrumen/kendang.png",
-        "audioPath": "./aset/suara/kendang/",
+        "audioPath": "./aset/audio/kendang/",
         "notes": [
           {
             "id": "tak",
-            "file": "tak.mp3",
+            "file": "kendang 1.WAV",
             "hitbox": {
               "xMin": 0.1,
               "xMax": 0.233,
@@ -911,7 +911,7 @@
           },
           {
             "id": "dang",
-            "file": "dang.mp3",
+            "file": "kendang 2.WAV",
             "hitbox": {
               "xMin": 0.76,
               "xMax": 0.894,
@@ -921,13 +921,53 @@
           },
           {
             "id": "tung",
-            "file": "tung.mp3",
+            "file": "kendang 3.WAV",
             "hitbox": {
               "xMin": 0.746,
               "xMax": 0.872,
               "yMin": 0.255,
               "yMax": 0.368
             }
+          },
+          {
+            "id": "kendang 4",
+            "file": "kendang 4.WAV",
+            "hitbox": { "xMin": 0.4, "xMax": 0.5, "yMin": 0.1, "yMax": 0.2 }
+          },
+          {
+            "id": "kendang 5",
+            "file": "kendang 5.WAV",
+            "hitbox": { "xMin": 0.5, "xMax": 0.6, "yMin": 0.1, "yMax": 0.2 }
+          },
+          {
+            "id": "kendang 6",
+            "file": "kendang 6.WAV",
+            "hitbox": { "xMin": 0.6, "xMax": 0.7, "yMin": 0.1, "yMax": 0.2 }
+          },
+          {
+            "id": "kendang 7",
+            "file": "kendang 7.WAV",
+            "hitbox": { "xMin": 0.4, "xMax": 0.5, "yMin": 0.3, "yMax": 0.4 }
+          },
+          {
+            "id": "kendang 8",
+            "file": "kendang 8.WAV",
+            "hitbox": { "xMin": 0.5, "xMax": 0.6, "yMin": 0.3, "yMax": 0.4 }
+          },
+          {
+            "id": "kendang 9",
+            "file": "kendang 9.WAV",
+            "hitbox": { "xMin": 0.6, "xMax": 0.7, "yMin": 0.3, "yMax": 0.4 }
+          },
+          {
+            "id": "kendang 10",
+            "file": "kendang 10.WAV",
+            "hitbox": { "xMin": 0.4, "xMax": 0.5, "yMin": 0.5, "yMax": 0.6 }
+          },
+          {
+            "id": "chees",
+            "file": "kendang chees.WAV",
+            "hitbox": { "xMin": 0.5, "xMax": 0.6, "yMin": 0.5, "yMax": 0.6 }
           }
         ]
       }
