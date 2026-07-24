@@ -78,6 +78,23 @@ body, html {
     pointer-events: auto;
 }
 
+/* --- PERINGATAN POTRAIT UNTUK MOBILE --- */
+@media (max-width: 896px) and (orientation: portrait) {
+    #landscape-warning {
+        display: flex !important;
+    }
+}
+
+@keyframes putarHp {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(-90deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.anim-putar-hp {
+    animation: putarHp 3s ease-in-out infinite;
+}
+
 .panduan-teks {
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(8px);

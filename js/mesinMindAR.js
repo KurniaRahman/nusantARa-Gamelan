@@ -24,7 +24,7 @@ export async function mulaiKamera() {
     try {
         streamKamera = await navigator.mediaDevices.getUserMedia({
             video: {
-                facingMode: { ideal: 'environment' },
+                facingMode: { ideal: 'user' },
                 width: { ideal: 1280 },
                 height: { ideal: 720 }
             },
