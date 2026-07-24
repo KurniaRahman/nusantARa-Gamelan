@@ -46,8 +46,17 @@ export async function kirimFrameVideoKePekerja(elemenVideo, timestamp) {
     try {
         sedangMemproses = true; // Kunci antrean sampai worker merespons
         
-        // Memotong frame video menjadi bitmap, diproses di thread lain (Worker)
-        const imageBitmap = await createImageBitmap(elemenVideo);
+        // Optimasi: Downscale frame video untuk laptop spesifikasi rendah (misal AMD R5)
+        // Resolusi lebih kecil (max width 480px) diproses jauh lebih cepat tanpa mengurangi akurasi MediaPipe (karena output-nya persentase 0-1)
+        const rasioAsli = elemenVideo.videoWidth / elemenVideo.videoHeight;
+        const lebarTujuan = 480;
+        const tinggiTujuan = Math.round(lebarTujuan / rasioAsli);
+        
+        const imageBitmap = await createImageBitmap(elemenVideo, { 
+            resizeWidth: lebarTujuan, 
+            resizeHeight: tinggiTujuan,
+            resizeQuality: 'low' 
+        });
         
         pekerja.postMessage({ 
             tipe: 'PROSES_FRAME', 

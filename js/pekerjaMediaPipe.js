@@ -29,9 +29,9 @@ async function inisialisasiMediaPipe() {
             },
             runningMode: "VIDEO", 
             numHands: 2,
-            minHandDetectionConfidence: 0.6,
-            minHandPresenceConfidence: 0.6,
-            minTrackingConfidence: 0.6
+            minHandDetectionConfidence: 0.5,
+            minHandPresenceConfidence: 0.5,
+            minTrackingConfidence: 0.5
         });
         
         siap = true;
@@ -57,9 +57,9 @@ async function inisialisasiMediaPipe() {
                 },
                 runningMode: "VIDEO",
                 numHands: 2,
-                minHandDetectionConfidence: 0.6,
-                minHandPresenceConfidence: 0.6,
-                minTrackingConfidence: 0.6
+                minHandDetectionConfidence: 0.5,
+                minHandPresenceConfidence: 0.5,
+                minTrackingConfidence: 0.5
             });
             siap = true;
             self.postMessage({ tipe: 'SIAP' });
