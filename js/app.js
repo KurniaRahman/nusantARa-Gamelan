@@ -39,8 +39,22 @@ let gambarSiap = false;
 let posisiInstrumen2D = { x: 0, y: 0, w: 0, h: 0 };
 
 function sesuaikanCanvas() {
-    canvasUI.width = window.innerWidth;
-    canvasUI.height = window.innerHeight;
+    const baseWidth = 1920;
+    const baseHeight = 1080;
+    
+    // Canvas UI tetap menggunakan resolusi asli agar tidak pecah/blur
+    canvasUI.width = baseWidth;
+    canvasUI.height = baseHeight;
+    
+    // Hitung skala agar pas di tengah layar (fit) tanpa scroll
+    const scaleX = window.innerWidth / baseWidth;
+    const scaleY = window.innerHeight / baseHeight;
+    const scale = Math.min(scaleX, scaleY);
+    
+    const wadahAplikasi = document.getElementById('wadah-aplikasi');
+    if (wadahAplikasi) {
+        wadahAplikasi.style.transform = `scale(${scale})`;
+    }
 }
 window.addEventListener('resize', sesuaikanCanvas);
 sesuaikanCanvas();
