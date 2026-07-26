@@ -89,7 +89,9 @@ self.onmessage = (event) => {
             console.error("Gagal memproses frame di Worker:", e);
             self.postMessage({ tipe: 'ERROR_DETEKSI' }); // Lepas kunci antrean di main thread
         } finally {
-            frameBitmap.close(); // Cegah memory leak
+            if (!pesan.isImageData && frameBitmap.close) {
+                frameBitmap.close(); // Cegah memory leak (Hanya untuk ImageBitmap)
+            }
         }
     }
 };

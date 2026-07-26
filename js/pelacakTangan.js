@@ -49,14 +49,36 @@ export async function kirimFrameVideoKePekerja(elemenVideo, timestamp) {
     try {
         sedangMemproses = true; // Kunci antrean sampai worker merespons
         
-        // Memotong frame video menjadi bitmap, diproses di thread lain (Worker)
-        const imageBitmap = await createImageBitmap(elemenVideo);
+        let frameData = null;
+        let isImageData = false;
         
+        try {
+            // Coba standar modern
+            frameData = await createImageBitmap(elemenVideo);
+        } catch (errBitmap) {
+            // Fallback iOS Safari lama yang tidak mendukung createImageBitmap untuk elemen video
+            if (!window.canvasFallback) {
+                window.canvasFallback = document.createElement('canvas');
+                window.ctxFallback = window.canvasFallback.getContext('2d', { willReadFrequently: true });
+            }
+            window.canvasFallback.width = elemenVideo.videoWidth;
+            window.canvasFallback.height = elemenVideo.videoHeight;
+            window.ctxFallback.drawImage(elemenVideo, 0, 0, window.canvasFallback.width, window.canvasFallback.height);
+            frameData = window.ctxFallback.getImageData(0, 0, window.canvasFallback.width, window.canvasFallback.height);
+            isImageData = true;
+        }
+
+        let transferList = [];
+        if (!isImageData) {
+            transferList = [frameData]; // Transfer ImageBitmap untuk zero-copy
+        } // Jika ImageData, biarkan dikloning otomatis agar aman di Safari
+
         pekerja.postMessage({ 
             tipe: 'PROSES_FRAME', 
-            frame: imageBitmap,
-            timestamp: timestamp
-        }, [imageBitmap]); 
+            frame: frameData,
+            timestamp: timestamp,
+            isImageData: isImageData
+        }, transferList); 
         
         // Jangan atur sedangMemproses = false di sini. 
         // Biarkan diatur saat pekerja merespons dengan HASIL_DETEKSI.
