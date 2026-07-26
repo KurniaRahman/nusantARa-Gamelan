@@ -97,8 +97,8 @@ function bukaModalManual() {
 function aturModeAR(mode) {
     modeAktif = mode;
     if (mode === 'auto') {
-        if (tombolModeAuto) tombolModeAuto.className = "px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold transition-all bg-amber-400 text-slate-900 shadow";
-        if (tombolModeManual) tombolModeManual.className = "px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold transition-all text-white/80 hover:text-white";
+        if (tombolModeAuto) tombolModeAuto.className = "px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold transition-all bg-sky-400 text-white shadow-sm";
+        if (tombolModeManual) tombolModeManual.className = "px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold transition-all text-slate-500 hover:text-slate-800";
         
         // Kembalikan state ke posisi awal pencarian
         dataInstrumenAktif = null;
@@ -115,8 +115,8 @@ function aturModeAR(mode) {
             panduanEl.textContent = "Mencari kartu target...";
         }
     } else {
-        if (tombolModeManual) tombolModeManual.className = "px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold transition-all bg-amber-400 text-slate-900 shadow";
-        if (tombolModeAuto) tombolModeAuto.className = "px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold transition-all text-white/80 hover:text-white";
+        if (tombolModeManual) tombolModeManual.className = "px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold transition-all bg-sky-400 text-white shadow-sm";
+        if (tombolModeAuto) tombolModeAuto.className = "px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold transition-all text-slate-500 hover:text-slate-800";
         
         if (kotakPemandu) kotakPemandu.classList.add('sembunyi');
         bukaModalManual();
@@ -332,7 +332,7 @@ function renderUIAR() {
                 konteksUI.beginPath();
                 if (j === 8) {
                     // TITIK 8 = Ujung Telunjuk
-                    konteksUI.arc(x, y, 10, 0, 2 * Math.PI);
+                    konteksUI.arc(x, y, 6, 0, 2 * Math.PI);
                     konteksUI.fillStyle = "rgba(212, 175, 55, 0.7)"; 
                     konteksUI.fill();
                     konteksUI.lineWidth = 2;
