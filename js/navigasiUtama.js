@@ -38,12 +38,13 @@ export function inisialisasiNavigasi() {
     // Navigasi ke AR (Mulai Bermain)
     tombolMulai.addEventListener('click', async () => {
         layarMulai.classList.add('sembunyi');
+        // Tampilkan wadahAR HARI INI agar jika di portrait, peringatan langsung muncul menimpa loading!
+        wadahAR.classList.remove('sembunyi'); 
         layarLoading.classList.remove('sembunyi');
         
         try {
             await mulaiAR();
             layarLoading.classList.add('sembunyi');
-            wadahAR.classList.remove('sembunyi');
         } catch (e) {
             console.error("Gagal memulai AR:", e);
             // Kembali ke beranda jika gagal

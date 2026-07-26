@@ -7,9 +7,24 @@ let pelacakTangan;
 let siap = false;
 
 async function inisialisasiMediaPipe() {
+    // Fungsi pembantu untuk mencoba inisialisasi GPU, jika gagal otomatis turun ke CPU
+    async function cobaBuatPelacak(FilesetResolver, HandLandmarker, urlWasm, urlModel) {
+        const vision = await FilesetResolver.forVisionTasks(urlWasm);
+        try {
+            return await HandLandmarker.createFromOptions(vision, {
+                baseOptions: { modelAssetPath: urlModel, delegate: "GPU" },
+                runningMode: "VIDEO", numHands: 2, minHandDetectionConfidence: 0.2, minHandPresenceConfidence: 0.2, minTrackingConfidence: 0.2
+            });
+        } catch (eGPU) {
+            console.warn("MediaPipe GPU gagal (biasanya terjadi di iOS Safari). Mencoba CPU...", eGPU);
+            return await HandLandmarker.createFromOptions(vision, {
+                baseOptions: { modelAssetPath: urlModel, delegate: "CPU" },
+                runningMode: "VIDEO", numHands: 2, minHandDetectionConfidence: 0.3, minHandPresenceConfidence: 0.3, minTrackingConfidence: 0.3
+            });
+        }
+    }
+
     try {
-        // Dapatkan URL relatif yang dinamis berbasis lokasi worker (self.location.href)
-        // Ini memastikan path selalu valid baik aplikasi dijalankan di root server maupun di subfolder.
         const urlAset = new URL('../aset/mediapipe/', self.location.href).href;
         const pathBundleLokal = new URL('vision_bundle.mjs', urlAset).href;
         const pathWasmLokal = new URL('wasm', urlAset).href;
@@ -17,54 +32,25 @@ async function inisialisasiMediaPipe() {
 
         console.log("Mencoba memuat MediaPipe dari lokal:", pathBundleLokal);
         const mediapipeModule = await import(pathBundleLokal);
-        const FilesetResolver = mediapipeModule.FilesetResolver;
-        const HandLandmarker = mediapipeModule.HandLandmarker;
-
-        const vision = await FilesetResolver.forVisionTasks(pathWasmLokal);
-        
-        pelacakTangan = await HandLandmarker.createFromOptions(vision, {
-            baseOptions: {
-                modelAssetPath: pathModelLokal, 
-                delegate: "GPU" 
-            },
-            runningMode: "VIDEO", 
-            numHands: 2,
-            minHandDetectionConfidence: 0.5,
-            minHandPresenceConfidence: 0.5,
-            minTrackingConfidence: 0.5
-        });
+        pelacakTangan = await cobaBuatPelacak(mediapipeModule.FilesetResolver, mediapipeModule.HandLandmarker, pathWasmLokal, pathModelLokal);
         
         siap = true;
         self.postMessage({ tipe: 'SIAP' });
     } catch (error) {
         console.warn("Gagal memuat MediaPipe lokal:", error.message);
-        
         try {
             console.log("Mencoba ulang memuat MediaPipe melalui CDN...");
             const urlAset = new URL('../aset/mediapipe/', self.location.href).href;
             const pathModelLokal = new URL('hand_landmarker.task', urlAset).href;
 
             const mediapipeModule = await import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/vision_bundle.mjs');
-            const FilesetResolver = mediapipeModule.FilesetResolver;
-            const HandLandmarker = mediapipeModule.HandLandmarker;
+            pelacakTangan = await cobaBuatPelacak(mediapipeModule.FilesetResolver, mediapipeModule.HandLandmarker, "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm", pathModelLokal);
             
-            const visionCDN = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm");
-            
-            pelacakTangan = await HandLandmarker.createFromOptions(visionCDN, {
-                baseOptions: {
-                    modelAssetPath: pathModelLokal,
-                    delegate: "GPU" 
-                },
-                runningMode: "VIDEO",
-                numHands: 2,
-                minHandDetectionConfidence: 0.6,
-                minHandPresenceConfidence: 0.6,
-                minTrackingConfidence: 0.6
-            });
             siap = true;
             self.postMessage({ tipe: 'SIAP' });
         } catch (e2) {
             console.error("Gagal total inisialisasi AI, baik lokal maupun CDN:", e2);
+            self.postMessage({ tipe: 'SIAP_GAGAL' });
         }
     }
 }

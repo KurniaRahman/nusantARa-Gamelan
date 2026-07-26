@@ -19,7 +19,10 @@ export function inisialisasiPelacak(onSiap, onDeteksi) {
         
         if (pesan.tipe === 'SIAP') {
             console.log("Web Worker MediaPipe berhasil diinisialisasi.");
-            if (onSiap) onSiap();
+            if (onSiap) onSiap(true);
+        } else if (pesan.tipe === 'SIAP_GAGAL') {
+            console.error("Web Worker gagal menginisialisasi MediaPipe sepenuhnya.");
+            if (onSiap) onSiap(false); // Tetap resolve agar UI tidak hang selamanya
         } else if (pesan.tipe === 'HASIL_DETEKSI') {
             const posisiMentah = pesan.tangan;
             const posisiHalus = terapkanEMA(posisiMentah); 

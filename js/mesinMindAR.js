@@ -36,9 +36,16 @@ export async function mulaiKamera() {
             videoElement.onloadedmetadata = () => {
                 videoElement.play();
                 const cekDimensi = setInterval(() => {
+                    // MindAR akan rusak jika diinisialisasi dalam mode portrait lalu HP diputar.
+                    // Jadi kita harus menunggu sampai video benar-benar dalam orientasi landscape.
                     if (videoElement.videoWidth > 0 && videoElement.videoHeight > 0) {
-                        clearInterval(cekDimensi);
-                        resolve(true);
+                        if (videoElement.videoWidth >= videoElement.videoHeight) {
+                            clearInterval(cekDimensi);
+                            resolve(true);
+                        } else {
+                            console.log("Menunggu pengguna memutar HP ke Landscape...");
+                            // Peringatan putar HP di UI sudah aktif, jadi user akan memutarnya.
+                        }
                     }
                 }, 100);
             };
