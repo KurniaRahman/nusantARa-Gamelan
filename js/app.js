@@ -202,8 +202,11 @@ function aktifkanInstrumen(instrumen, laras) {
     gambarSiap = false;
     gambarInstrumen.src = konfigurasiLarasAktif.imageSrc;
     gambarInstrumen.onload = () => {
-        // Perbesar instrumen hingga 95% lebar layar (atau maksimal 1.5x dari ukuran aslinya di desktop besar)
-        const skala = Math.min(window.innerWidth * 0.95 / gambarInstrumen.width, 1.5);
+        // Sesuaikan ukuran: 95% untuk mobile (layar sempit/portrait), 75% untuk desktop (layar lebar)
+        const isMobile = window.innerWidth < 768 || window.innerHeight > window.innerWidth;
+        const persentaseLebar = isMobile ? 0.95 : 0.75;
+        const skala = Math.min((window.innerWidth * persentaseLebar) / gambarInstrumen.width, 1.2);
+        
         posisiInstrumen2D.w = gambarInstrumen.width * skala;
         posisiInstrumen2D.h = gambarInstrumen.height * skala;
         
@@ -325,6 +328,8 @@ function renderUIAR() {
                 konteksUI.stroke();
             }
 
+            const isMobile = window.innerWidth < 768;
+            
             for (let j = 0; j < titikTangan.length; j++) {
                 const x = titikTangan[j].x * canvasUI.width;
                 const y = titikTangan[j].y * canvasUI.height;
@@ -332,10 +337,11 @@ function renderUIAR() {
                 konteksUI.beginPath();
                 if (j === 8) {
                     // TITIK 8 = Ujung Telunjuk
-                    konteksUI.arc(x, y, 6, 0, 2 * Math.PI);
+                    const radiusUtama = isMobile ? 6 : 8;
+                    konteksUI.arc(x, y, radiusUtama, 0, 2 * Math.PI);
                     konteksUI.fillStyle = "rgba(212, 175, 55, 0.7)"; 
                     konteksUI.fill();
-                    konteksUI.lineWidth = 2;
+                    konteksUI.lineWidth = isMobile ? 2 : 2;
                     konteksUI.strokeStyle = "#FFFFFF";
                     konteksUI.stroke();
                     
@@ -359,7 +365,8 @@ function renderUIAR() {
                     });
                 }
             } else {
-                konteksUI.arc(x, y, 2.5, 0, 2 * Math.PI);
+                const radiusSendi = isMobile ? 1.0 : 1.5;
+                konteksUI.arc(x, y, radiusSendi, 0, 2 * Math.PI);
                 konteksUI.fillStyle = "rgba(255, 255, 255, 0.6)";
                 konteksUI.fill();
             }
