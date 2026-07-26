@@ -25,7 +25,7 @@ async function inisialisasiMediaPipe() {
         pelacakTangan = await HandLandmarker.createFromOptions(vision, {
             baseOptions: {
                 modelAssetPath: pathModelLokal, 
-                delegate: "CPU" // Diubah ke CPU agar tidak berebut GPU dengan MindAR di HP lambat
+                delegate: "GPU" 
             },
             runningMode: "VIDEO", 
             numHands: 2,
@@ -53,13 +53,13 @@ async function inisialisasiMediaPipe() {
             pelacakTangan = await HandLandmarker.createFromOptions(visionCDN, {
                 baseOptions: {
                     modelAssetPath: pathModelLokal,
-                    delegate: "CPU" 
+                    delegate: "GPU" 
                 },
                 runningMode: "VIDEO",
                 numHands: 2,
-                minHandDetectionConfidence: 0.5,
-                minHandPresenceConfidence: 0.5,
-                minTrackingConfidence: 0.5
+                minHandDetectionConfidence: 0.6,
+                minHandPresenceConfidence: 0.6,
+                minTrackingConfidence: 0.6
             });
             siap = true;
             self.postMessage({ tipe: 'SIAP' });
