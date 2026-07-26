@@ -19,7 +19,7 @@ async function inisialisasiMediaPipe() {
             console.warn("MediaPipe GPU gagal (biasanya terjadi di iOS Safari). Mencoba CPU...", eGPU);
             return await HandLandmarker.createFromOptions(vision, {
                 baseOptions: { modelAssetPath: urlModel, delegate: "CPU" },
-                runningMode: "VIDEO", numHands: 2, minHandDetectionConfidence: 0.3, minHandPresenceConfidence: 0.3, minTrackingConfidence: 0.3
+                runningMode: "VIDEO", numHands: 2, minHandDetectionConfidence: 0.2, minHandPresenceConfidence: 0.2, minTrackingConfidence: 0.2
             });
         }
     }
