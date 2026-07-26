@@ -202,7 +202,8 @@ function aktifkanInstrumen(instrumen, laras) {
     gambarSiap = false;
     gambarInstrumen.src = konfigurasiLarasAktif.imageSrc;
     gambarInstrumen.onload = () => {
-        const skala = Math.min(window.innerWidth * 0.8 / gambarInstrumen.width, 1);
+        // Perbesar instrumen hingga 95% lebar layar (atau maksimal 1.5x dari ukuran aslinya di desktop besar)
+        const skala = Math.min(window.innerWidth * 0.95 / gambarInstrumen.width, 1.5);
         posisiInstrumen2D.w = gambarInstrumen.width * skala;
         posisiInstrumen2D.h = gambarInstrumen.height * skala;
         
@@ -331,10 +332,10 @@ function renderUIAR() {
                 konteksUI.beginPath();
                 if (j === 8) {
                     // TITIK 8 = Ujung Telunjuk
-                    konteksUI.arc(x, y, 16, 0, 2 * Math.PI);
+                    konteksUI.arc(x, y, 10, 0, 2 * Math.PI);
                     konteksUI.fillStyle = "rgba(212, 175, 55, 0.7)"; 
                     konteksUI.fill();
-                    konteksUI.lineWidth = 3;
+                    konteksUI.lineWidth = 2;
                     konteksUI.strokeStyle = "#FFFFFF";
                     konteksUI.stroke();
                     
@@ -358,7 +359,7 @@ function renderUIAR() {
                     });
                 }
             } else {
-                konteksUI.arc(x, y, 4, 0, 2 * Math.PI);
+                konteksUI.arc(x, y, 2.5, 0, 2 * Math.PI);
                 konteksUI.fillStyle = "rgba(255, 255, 255, 0.6)";
                 konteksUI.fill();
             }
