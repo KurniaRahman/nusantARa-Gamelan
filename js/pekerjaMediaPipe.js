@@ -25,7 +25,7 @@ async function inisialisasiMediaPipe() {
         pelacakTangan = await HandLandmarker.createFromOptions(vision, {
             baseOptions: {
                 modelAssetPath: pathModelLokal, 
-                delegate: "GPU" 
+                delegate: "CPU" // Diubah ke CPU agar tidak berebut GPU dengan MindAR di HP lambat
             },
             runningMode: "VIDEO", 
             numHands: 2,
@@ -53,7 +53,7 @@ async function inisialisasiMediaPipe() {
             pelacakTangan = await HandLandmarker.createFromOptions(visionCDN, {
                 baseOptions: {
                     modelAssetPath: pathModelLokal,
-                    delegate: "GPU" 
+                    delegate: "CPU" 
                 },
                 runningMode: "VIDEO",
                 numHands: 2,
