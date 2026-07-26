@@ -310,36 +310,13 @@ function renderUIAR() {
         for (let i = 0; i < daftarTangan.length; i++) {
             const titikTangan = daftarTangan[i];
 
-            // Hitung letterboxing dari video object-contain agar koordinat sinkron
-            const rectVideo = document.getElementById('videoKamera').getBoundingClientRect();
-            const vw = document.getElementById('videoKamera').videoWidth || 1280;
-            const vh = document.getElementById('videoKamera').videoHeight || 720;
-            const rasioVideo = vw / vh;
-            const rasioLayar = rectVideo.width / rectVideo.height;
-            
-            let renderW, renderH, offsetX, offsetY;
-            if (rasioVideo > rasioLayar) {
-                renderW = rectVideo.width;
-                renderH = rectVideo.width / rasioVideo;
-                offsetX = 0;
-                offsetY = (rectVideo.height - renderH) / 2;
-            } else {
-                renderH = rectVideo.height;
-                renderW = rectVideo.height * rasioVideo;
-                offsetX = (rectVideo.width - renderW) / 2;
-                offsetY = 0;
-            }
-
-            const mapX = (xNormalized) => (xNormalized * renderW) + offsetX;
-            const mapY = (yNormalized) => (yNormalized * renderH) + offsetY;
-
             konteksUI.strokeStyle = "rgba(255, 255, 255, 0.5)";
             konteksUI.lineWidth = 2;
             for (const [awal, akhir] of KONEKSI_TULANG) {
-                const x1 = mapX(titikTangan[awal].x);
-                const y1 = mapY(titikTangan[awal].y);
-                const x2 = mapX(titikTangan[akhir].x);
-                const y2 = mapY(titikTangan[akhir].y);
+                const x1 = titikTangan[awal].x * canvasUI.width;
+                const y1 = titikTangan[awal].y * canvasUI.height;
+                const x2 = titikTangan[akhir].x * canvasUI.width;
+                const y2 = titikTangan[akhir].y * canvasUI.height;
                 
                 konteksUI.beginPath();
                 konteksUI.moveTo(x1, y1);
@@ -348,8 +325,8 @@ function renderUIAR() {
             }
 
             for (let j = 0; j < titikTangan.length; j++) {
-                const x = mapX(titikTangan[j].x);
-                const y = mapY(titikTangan[j].y);
+                const x = titikTangan[j].x * canvasUI.width;
+                const y = titikTangan[j].y * canvasUI.height;
                 
                 konteksUI.beginPath();
                 if (j === 8) {
