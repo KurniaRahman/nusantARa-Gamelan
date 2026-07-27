@@ -43,8 +43,8 @@ async function inisialisasiMediaPipe() {
             const urlAset = new URL('../aset/mediapipe/', self.location.href).href;
             const pathModelLokal = new URL('hand_landmarker.task', urlAset).href;
 
-            const mediapipeModule = await import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/vision_bundle.mjs');
-            pelacakTangan = await cobaBuatPelacak(mediapipeModule.FilesetResolver, mediapipeModule.HandLandmarker, "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm", pathModelLokal);
+            const mediapipeModule = await import('https://unpkg.com/@mediapipe/tasks-vision@0.10.3/vision_bundle.mjs');
+            pelacakTangan = await cobaBuatPelacak(mediapipeModule.FilesetResolver, mediapipeModule.HandLandmarker, "https://unpkg.com/@mediapipe/tasks-vision@0.10.3/wasm", pathModelLokal);
             
             siap = true;
             self.postMessage({ tipe: 'SIAP' });
