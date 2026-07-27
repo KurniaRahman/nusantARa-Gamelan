@@ -6,6 +6,15 @@
 let pelacakTangan;
 let siap = false;
 
+// Override Console untuk meneruskan Log ke Main Thread (Eruda)
+const logAsli = console.log;
+const warnAsli = console.warn;
+const errorAsli = console.error;
+console.log = function(...args) { self.postMessage({ tipe: 'LOG', level: 'log', pesan: args.join(' ') }); logAsli.apply(console, args); };
+console.warn = function(...args) { self.postMessage({ tipe: 'LOG', level: 'warn', pesan: args.join(' ') }); warnAsli.apply(console, args); };
+console.error = function(...args) { self.postMessage({ tipe: 'LOG', level: 'error', pesan: args.join(' ') }); errorAsli.apply(console, args); };
+
+
 async function inisialisasiMediaPipe() {
     // Fungsi pembantu untuk mencoba inisialisasi GPU, jika gagal otomatis turun ke CPU
     async function cobaBuatPelacak(FilesetResolver, HandLandmarker, urlWasm, urlModel) {

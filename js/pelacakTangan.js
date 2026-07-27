@@ -33,6 +33,11 @@ export function inisialisasiPelacak(onSiap, onDeteksi) {
             sedangMemproses = false; // Buka kunci antrean frame
         } else if (pesan.tipe === 'ERROR_DETEKSI') {
             sedangMemproses = false; // Buka kunci antrean jika error
+        } else if (pesan.tipe === 'LOG') {
+            // Teruskan log worker ke Eruda di main thread
+            if (pesan.level === 'error') console.error("[Worker Error]", pesan.pesan);
+            else if (pesan.level === 'warn') console.warn("[Worker Warn]", pesan.pesan);
+            else console.log("[Worker]", pesan.pesan);
         }
     };
     
