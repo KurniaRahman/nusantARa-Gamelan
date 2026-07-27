@@ -3,7 +3,7 @@
  */
 
 // Impor MindAR sebagai ES Module (versi 1.2.5 menggunakan ESM)
-import 'https://unpkg.com/mind-ar@1.2.5/dist/mindar-image.prod.js';
+import 'https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js';
 
 let mindarController = null;
 let streamKamera = null;
