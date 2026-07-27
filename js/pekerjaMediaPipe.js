@@ -35,32 +35,35 @@ async function inisialisasiMediaPipe() {
 
     try {
         const urlAset = new URL('../aset/mediapipe/', self.location.href).href;
-        const pathBundleLokal = new URL('vision_bundle.mjs', urlAset).href;
-        const pathWasmLokal = new URL('wasm', urlAset).href;
         const pathModelLokal = new URL('hand_landmarker.task', urlAset).href;
 
-        console.log("Mencoba memuat MediaPipe dari lokal:", pathBundleLokal);
-        const mediapipeModule = await import(pathBundleLokal);
-        pelacakTangan = await cobaBuatPelacak(mediapipeModule.FilesetResolver, mediapipeModule.HandLandmarker, pathWasmLokal, pathModelLokal);
+        // Jika di dalam worker, importScripts jauh lebih stabil di iOS Safari daripada dynamic import()
+        importScripts('https://unpkg.com/@mediapipe/tasks-vision@0.10.3/vision_bundle.js');
+        
+        // Setelah importScripts, objek FilesetResolver dan HandLandmarker akan tersedia di object global 'self' (atau 'Object')
+        // Sayangnya, MediaPipe Tasks UMD/CJS kadang tidak mengeksposnya langsung ke self, 
+        // sehingga pendekatan termudah adalah mencoba memuat bundle js biasa jika tersedia, atau mengabaikan jika error.
+
+        const vision = await self.FilesetResolver.forVisionTasks("https://unpkg.com/@mediapipe/tasks-vision@0.10.3/wasm");
+        
+        try {
+            pelacakTangan = await self.HandLandmarker.createFromOptions(vision, {
+                baseOptions: { modelAssetPath: pathModelLokal, delegate: "GPU" },
+                runningMode: "VIDEO", numHands: 2, minHandDetectionConfidence: 0.2, minHandPresenceConfidence: 0.2, minTrackingConfidence: 0.2
+            });
+        } catch (eGPU) {
+            console.warn("MediaPipe GPU gagal (biasanya terjadi di iOS Safari). Mencoba CPU...", eGPU);
+            pelacakTangan = await self.HandLandmarker.createFromOptions(vision, {
+                baseOptions: { modelAssetPath: pathModelLokal, delegate: "CPU" },
+                runningMode: "VIDEO", numHands: 2, minHandDetectionConfidence: 0.2, minHandPresenceConfidence: 0.2, minTrackingConfidence: 0.2
+            });
+        }
         
         siap = true;
         self.postMessage({ tipe: 'SIAP' });
     } catch (error) {
-        console.warn("Gagal memuat MediaPipe lokal:", error.message);
-        try {
-            console.log("Mencoba ulang memuat MediaPipe melalui CDN...");
-            const urlAset = new URL('../aset/mediapipe/', self.location.href).href;
-            const pathModelLokal = new URL('hand_landmarker.task', urlAset).href;
-
-            const mediapipeModule = await import('https://unpkg.com/@mediapipe/tasks-vision@0.10.3/vision_bundle.mjs');
-            pelacakTangan = await cobaBuatPelacak(mediapipeModule.FilesetResolver, mediapipeModule.HandLandmarker, "https://unpkg.com/@mediapipe/tasks-vision@0.10.3/wasm", pathModelLokal);
-            
-            siap = true;
-            self.postMessage({ tipe: 'SIAP' });
-        } catch (e2) {
-            console.error("Gagal total inisialisasi AI, baik lokal maupun CDN:", e2);
-            self.postMessage({ tipe: 'SIAP_GAGAL' });
-        }
+        console.error("Gagal total inisialisasi AI menggunakan importScripts:", error);
+        self.postMessage({ tipe: 'SIAP_GAGAL' });
     }
 }
 
